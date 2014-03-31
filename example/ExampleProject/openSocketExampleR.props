@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <ExampleOutput>$(SolutionDir)../output</ExampleOutput>
+    <ExampleInclude>$(SolutioinDir)../../../source</ExampleInclude>
+    <ExampleLib>$(SolutionDir)../../output</ExampleLib>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(ExampleOutput)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ExampleInclude)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ExampleLib)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openSocket.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="ExampleOutput">
+      <Value>$(ExampleOutput)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ExampleInclude">
+      <Value>$(ExampleInclude)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ExampleLib">
+      <Value>$(ExampleLib)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
