@@ -42,48 +42,39 @@ bool SocketOption::isListening(Socket& sock)
 	return  !(opt == 0);
 }
 
-
-bool SocketOption::getSocketInfo(Socket& sock, Socket::SockType* type /*= nullptr*/,
-	InterAddress* localAddr /*= nullptr*/,
-	InterAddress* remoteAddr /*= nullptr*/,
-	int32* Protocol /*= nullptr*/)
+bool SocketOption::getRemoteAddr(Socket& sock, InterAddress& remoteAddr)
 {
-	CSADDR_INFO opt;
-	int32 optlen = sizeof(opt);
+	int nLen = remoteAddr.getAddrLen();
+	bool bRet = (0 == getpeername(sock.getHandle(), remoteAddr.getAddress(), &nLen));
 
-	if (!getoption(sock, SO_BSP_STATE, &opt, &optlen))
-		return false;
-
-	if (nullptr != type)
-	{
-		*type = (Socket::SockType)opt.iSocketType;
-	}
-	if (nullptr != Protocol)
-	{
-		*Protocol = opt.iProtocol;
-	}
-	if (nullptr != localAddr && opt.LocalAddr.iSockaddrLength == localAddr->getAddrLen())
-	{
-		localAddr->open(opt.LocalAddr.lpSockaddr);
-	}
-	if (nullptr != remoteAddr && opt.RemoteAddr.iSockaddrLength == remoteAddr->getAddrLen())
-	{
-		remoteAddr->open(opt.RemoteAddr.lpSockaddr);
-	}
-
-	return true;
+#ifdef _DEBUG
+	int nErr = ::GetLastError();
+#endif
+	return bRet;
 }
+
+bool SocketOption::getLocalAddr(Socket& sock, InterAddress& localAddr)
+{
+	int nLen = localAddr.getAddrLen();
+	bool bRet = (0 == getsockname(sock.getHandle(), localAddr.getAddress(), &nLen));
+
+#ifdef _DEBUG
+	int nErr = ::GetLastError();
+#endif
+	return bRet;
+}
+
+#ifdef __PLATFORM_WIN32__
 int32 SocketOption::getConnectTime(Socket& sock)
 {
 	int32 nSecondConnect = -1;
 	int32 nOptLen = sizeof(nSecondConnect);
 
-#ifdef __PLATFORM_WIN32__
 	VERIFY(getoption(sock, SO_CONNECT_TIME, &nSecondConnect, &nOptLen));
-#endif//__PLATFORM_WIN32__
 
 	return nSecondConnect;
 }
+#endif//__PLATFORM_WIN32__
 
 int32 SocketOption::getRecvBufSize(Socket& sock)
 {
@@ -124,8 +115,46 @@ bool  SocketOption::setBlockMode(Socket& sock, bool bBlock)
 	if (INVALID_SOCKET_HANDLE == hSock)
 		return false;
 
+#if defined(__PLATFORM_WIN32__)
+
 	u_long iMode = bBlock ? 0 : 1;
-	return (SOCKET_ERROR == ioctlsocket(hSock, FIONBIO, &iMode));
+	return (SOCKET_ERROR != ioctlsocket(hSock, FIONBIO, &iMode));
+
+#elif defined(__PLATFORM_LINUX__)
+
+	int flag;
+	if (flag = fcntl(fd, F_GETFL, 0) < 0)
+		return false;
+	
+	SET_DEL_BIT( flag, O_NONBLOCK, !bBlock );
+
+	if (fcntl(fd, F_SETFL, flag) < 0)
+		return false;
+
+	return true;
+#endif
+}
+
+bool  SocketOption::isBlockMode(Socket& sock)
+{
+	SOCKET_HANDLE hSock = sock.getHandle();
+	if (INVALID_SOCKET_HANDLE == hSock)
+		return false;
+
+#if defined(__PLATFORM_WIN32__)
+
+	return (SOCKET_ERROR != ioctlsocket(hSock, FIONBIO, ));
+
+#elif defined(__PLATFORM_LINUX__)
+
+	int flag;
+	if (flag = fcntl(fd, F_GETFL, 0) < 0)
+		return false;
+
+	return QUERY_IS_SET_BIT(flag, O_NONBLOCK);
+
+#endif
+
 }
 bool  SocketOption::setRecvBufSize(Socket& sock, int32 nBufSize)
 {

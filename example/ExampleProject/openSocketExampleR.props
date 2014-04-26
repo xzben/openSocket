@@ -12,6 +12,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ExampleInclude)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__PLATFORM_WIN32__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ExampleLib)</AdditionalLibraryDirectories>

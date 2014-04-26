@@ -6,6 +6,7 @@
 *********************************************************************************/
 
 #include "socket.h"
+#include "socket_option.h"
 #include <iostream>
 
 BEGIN_NAMESPACE
@@ -107,7 +108,6 @@ bool	Socket::listen(int32 nBacklog /*= 10*/)
 
 bool Socket::accept(Socket& sockCon, InterAddress* remoteAddr /*= nullptr*/)
 {
-	sockCon.close();
 	InterAddress addrCon;
 	int nAddrLen = addrCon.getAddrLen();
   
@@ -144,7 +144,57 @@ bool	Socket::connect(const InterAddress& addrCon)
 	return true;
 }
   
+bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
+{
+	SocketOption option;
+	option.setBlockMode(*this, false);
 
+	int nRet = ::connect(m_hSocket, addrCon.getAddress(), addrCon.getAddrLen());
+
+	if (nRet < 0) 
+	{
+		if (EINPROGRESS == ::GetLastError())
+		{
+			FD_SET wset;
+			FD_ZERO(&wset);
+			FD_SET(m_hSocket, &wset);
+#if defined(__PLATFORM_WIN32__)
+			int nWith = 0;
+#elif defined(__PLATFORM_LINUX__)
+			int nWidth = m_hSocket + 1;
+#endif
+			if (select(nWith, NULL, &wset, NULL, tmVal) > 0 && FD_ISSET(m_hSocket, &wset))
+			{
+				int valopt;
+				int nLen = sizeof(valopt);
+				
+				getsockopt(m_hSocket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &nLen);
+				if (valopt) 
+				{
+					//fprintf(stderr, "Error in connection() %d - %s/n", valopt, strerror(valopt));
+					//exit(0);
+					return false;
+				}
+			}
+			else
+			{
+				//fprintf(stderr, "Timeout or error() %d - %s/n", valopt, strerror(valopt));
+				//exit(0);
+				return false;
+			}
+		}
+		else
+		{
+			//fprintf(stderr, "Error connecting %d - %s/n", errno, strerror(errno));
+			//exit(0);
+			return false;
+		}
+	}
+	
+	option.setBlockMode(*this, true);
+
+	return true;
+}
 
 int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
 	bool* pWriteReady /*= nullptr*/, bool* pExceptReady/*= nullptr*/)
@@ -156,16 +206,15 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 	FD_ZERO(&setRead); FD_ZERO(&setWrite); FD_ZERO(&setExcept);
 	FD_SET(m_hSocket, &setRead); FD_SET(m_hSocket, &setWrite); FD_SET(m_hSocket, &setExcept);
 
-	SET_PTR_VALUD_SAFE(pReadReady, false);
-	SET_PTR_VALUD_SAFE(pWriteReady, false);
-	SET_PTR_VALUD_SAFE(pExceptReady, false);
+	SET_PTR_VALUE_SAFE(pReadReady, false);
+	SET_PTR_VALUE_SAFE(pWriteReady, false);
+	SET_PTR_VALUE_SAFE(pExceptReady, false);
 
-#ifdef __PLATFORM_WIN32__
+#if defined( __PLATFORM_WIN32__ )
 	int32 selectWith = 0;
-#else
+#elif define( __PLATFORM_LINUX__ )
 	int32 selectWith = hSocket + 1;
 #endif
-
 
 	int32 nRet = ::select(selectWith, 
 		pReadReady	 ? &setRead  : nullptr,
@@ -175,9 +224,9 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 
 	if (nRet > 0)
 	{
-		if (FD_ISSET(m_hSocket, &setRead))	 SET_PTR_VALUD_SAFE(pReadReady, true);
-		if (FD_ISSET(m_hSocket, &pWriteReady)) SET_PTR_VALUD_SAFE(pWriteReady, true);
-		if (FD_ISSET(m_hSocket, &pExceptReady))SET_PTR_VALUD_SAFE(pExceptReady, true);
+		if (FD_ISSET(m_hSocket, &setRead))	 SET_PTR_VALUE_SAFE(pReadReady, true);
+		if (FD_ISSET(m_hSocket, &pWriteReady)) SET_PTR_VALUE_SAFE(pWriteReady, true);
+		if (FD_ISSET(m_hSocket, &pExceptReady))SET_PTR_VALUE_SAFE(pExceptReady, true);
 	}
 
 	return nRet;

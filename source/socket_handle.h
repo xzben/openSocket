@@ -12,14 +12,31 @@
 
 //SOCKET 句柄类型
 #if defined(__PLATFORM_WIN32__)
-	#include"winsock2.h"
+	#include<winsock2.h>
 	#pragma comment(lib, "ws2_32.lib")
 	#pragma comment ( lib, "mswsock.lib")
+////////////////////////////////////////////////////////////
+//	统一 socket shutdown 的参数
+	#define	SHUT_RD					SD_RECEIVE
+	#define	SHUT_WR					SD_SEND
+	#define	SHUT_RDWR				SD_BOTH
+////////////////////////////////////////////////////////
 	typedef SOCKET					SOCKET_HANDLE;
 	#define	INVALID_SOCKET_HANDLE	INVALID_SOCKET
-#elif define(__PLATFORM_LINUX__)
-	typedef int				SOCKET_HANDLE;
+#elif defined(__PLATFORM_LINUX__)
+	#include <sys/socket.h>
+	#include <sys/types.h>
+	#include <arpa/inet.h>
+	#include <errno.h>
+////////////////////////////////////////////////////////////
+//	统一 socket shutdown 的参数
+	#define	SD_RECEIVE				SHUT_RD					
+	#define	SD_SEND					SHUT_WR					
+	#define	SD_BOTH					SHUT_RDWR	
+////////////////////////////////////////////////////////////
+	typedef int						SOCKET_HANDLE;
 	#define	INVALID_SOCKET_HANDLE	-1
+	#define	GetLastError()			 errno
 #endif//平台相关
 
 #endif//__2014_03_17_SOCKET_HANDLE_H__

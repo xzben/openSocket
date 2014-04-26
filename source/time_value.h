@@ -7,8 +7,10 @@
 
 #include"object.h"
 
-#ifdef __PLATFORM_WIN32__
-	#include <winsock2.h> 
+#if defined(__PLATFORM_WIN32__)
+	#include <winsock2.h>
+#elif defined(__PLATFORM_LINUX__)
+	#include<sys/time.h>
 #endif//__PLATFORM_WIN32__
 
 #ifndef __2014_03_23_TIME_VALUE_H__

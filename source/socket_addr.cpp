@@ -40,9 +40,21 @@ void InterAddress::open(int16 Port, const char* szIp /*=nullptr*/)
 	m_addr.sin_family = AF_INET;
 	m_addr.sin_port = htons(Port);
 	if (nullptr == szIp)
+	{
+#if defined(__PLATFORM_WIN32__)
 		m_addr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+#elif defined(__PLATFORM_LINUX__)
+		m_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+#endif
+	}
 	else
+	{
+#if defined(__PLATFORM_WIN32__)
 		m_addr.sin_addr.S_un.S_addr = inet_addr(szIp);
+#elif defined(__PLATFORM_LINUX__)
+		m_addr.sin_addr.s_addr = inet_addr(szIp);
+#endif
+	}
 }
 
 void InterAddress::open(sockaddr* pSockaddr)

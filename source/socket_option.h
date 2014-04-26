@@ -88,18 +88,23 @@ public:
 	*	获取一个面向连接协议的socket是否处在 listen状态
 	*/
 	bool isListening(Socket& sock);
+
 	/*
-	*	获取套接字  sockettype，本地地址，远程地址，协议类型
+	*	获取 套接字 的 本地地址
 	*/
-	bool getSocketInfo(Socket& sock, Socket::SockType* type = nullptr,
-		InterAddress* localAddr = nullptr,
-		InterAddress* remoteAddr = nullptr,
-		int32* Protocol = nullptr);
+	bool getLocalAddr(Socket& sock, InterAddress& localAddr);
+
+	/*
+	*	获取 建立连接的 TCP 套接字 的 远程地址
+	*/
+	bool getRemoteAddr(Socket& sock, InterAddress& remoteAddr);
+
+#ifdef __PLATFORM_WIN32__
 	/*
 	*	获取面向连接协议的套接字当前连接建立的秒数,目前只支持win32
 	*/
 	int32 getConnectTime(Socket& sock);
-
+#endif//__PLATFORM_WIN32__
 	/*
 	*	获取/设置 发送/结束 缓冲区的size
 	*/
@@ -117,6 +122,7 @@ public:
 	*	设置套接字非阻塞
 	*/
 	bool	setBlockMode(Socket& sock, bool bBlock);
+	bool	isBlockMode(Socket& sock);
 private:
 	bool setoption(Socket& sock, uint32 optname, const void *optval, int32 optlen);
 	bool getoption(Socket& sock, uint32 optname, void* optval, int32* optlen);

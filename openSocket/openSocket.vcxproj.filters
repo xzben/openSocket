@@ -18,12 +18,6 @@
     <ClInclude Include="..\source\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\config_linux.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\config_win32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\interal_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,14 +48,8 @@
     <ClInclude Include="..\source\time_value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\socket_error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\time_value.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\socket_error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

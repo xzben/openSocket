@@ -54,7 +54,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_OPENSOCKET_BUILD_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_OPENSOCKET_BUILD_;__PLATFORM_WIN32__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -90,14 +90,11 @@ copy $(SolutionDir)..\output\openSocket.dll   $(SolutionDir)..\example\output\</
   <ItemGroup>
     <ClInclude Include="..\source\acceptor.h" />
     <ClInclude Include="..\source\config.h" />
-    <ClInclude Include="..\source\config_linux.h" />
-    <ClInclude Include="..\source\config_win32.h" />
     <ClInclude Include="..\source\connector.h" />
     <ClInclude Include="..\source\interal_types.h" />
     <ClInclude Include="..\source\object.h" />
     <ClInclude Include="..\source\socket.h" />
     <ClInclude Include="..\source\socket_addr.h" />
-    <ClInclude Include="..\source\socket_error.h" />
     <ClInclude Include="..\source\socket_handle.h" />
     <ClInclude Include="..\source\socket_option.h" />
     <ClInclude Include="..\source\stream.h" />
@@ -106,11 +103,9 @@ copy $(SolutionDir)..\output\openSocket.dll   $(SolutionDir)..\example\output\</
   <ItemGroup>
     <ClCompile Include="..\source\acceptor.cpp" />
     <ClCompile Include="..\source\connector.cpp" />
-    <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\object.cpp" />
     <ClCompile Include="..\source\socket.cpp" />
     <ClCompile Include="..\source\socket_addr.cpp" />
-    <ClCompile Include="..\source\socket_error.cpp" />
     <ClCompile Include="..\source\socket_option.cpp" />
     <ClCompile Include="..\source\stream.cpp" />
     <ClCompile Include="..\source\time_value.cpp" />

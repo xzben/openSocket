@@ -45,7 +45,9 @@ public:
  	
 	bool			accept(Socket& sockCon, InterAddress* remoteAddr = nullptr);
 	bool			accept(const TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr = nullptr);
+
 	bool			connect(const InterAddress& addrCon);
+	bool			connect(const InterAddress& addrCon, const TimeValue& tmVal);
 
 	int32			getReadyStatus(const TimeValue& tmVal, bool *pReadReady = nullptr,
 								  bool* pWriteReady = nullptr, bool* pExceptReady = nullptr);

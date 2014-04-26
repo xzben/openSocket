@@ -17,7 +17,10 @@ class EXP_IMP_DLL Acceptor
 {
 public:
 	Acceptor(){}
-
+	/*
+	*	localAddr		acceptor 监听的本地地址
+	*	bReuseAddr		绑定的本地地址是否可重复绑定
+	*/
 	Acceptor(InterAddress& localAddr, bool bReuseAddr = false)
 	{
 		VERIFY(open(localAddr, bReuseAddr));
@@ -28,6 +31,10 @@ public:
 
 	}
 	
+	/*
+	*	localAddr		acceptor 监听的本地地址
+	*	bReuseAddr		绑定的本地地址是否可重复绑定
+	*/
 	bool open(InterAddress& localAddr, bool bReuseAddr = false)
 	{
 		if (!m_sock.open(Socket::SockType::SOCK_TCP))

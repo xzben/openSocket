@@ -31,22 +31,29 @@ int main()
 
 	Socket::SockType type;
 	InterAddress local, remote;
+	tcpSock.bind(InterAddress(1000));
 	//tcpSock.bind(InterAddress(6001, "192.168.137.1"));
-	ASSERT(tcpSock.connect(InterAddress(6000, "127.0.0.1")));
-
-	while (1)
+	if (tcpSock.connect(InterAddress(6000, "127.0.0.1")))
 	{
-		std::cout << option.getConnectTime(tcpSock) << std::endl;
+		while (1)
+		{
+			int time = option.getConnectTime(tcpSock);
+			std::cout << time << std::endl;
+			if (time >= 2) break;
+		}
 	}
-	option.getSocketInfo(tcpSock, &type, &local, &remote);
+	else
+		printf("Connect faild!\n");
+
+	option.getLocalAddr(tcpSock, local);
+	option.getRemoteAddr(tcpSock, remote);
 	char szIp[20]; int16 nPort;
-	ASSERT(type == Socket::SockType::SOCK_TCP);
 
 	local.getAddress(szIp, nPort);
-	printf("ip[ %s ] port[ %d ]\n", szIp, nPort);
+	printf("load ip[ %s ] port[ %d ]\n", szIp, nPort);
 
 	remote.getAddress(szIp, nPort);
-	printf("ip[ %s ] port[ %d ]\n", szIp, nPort);
+	printf("remote ip[ %s ] port[ %d ]\n", szIp, nPort);
 
 
 	getchar();
