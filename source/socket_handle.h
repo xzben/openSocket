@@ -1,9 +1,9 @@
-/********************************************************************
-*	文件名称:	socket_handle.h										*
-*	创建时间：	2014/03/17											*
-*	作   者 :	xzben												*
-*	文件功能:	包含最基本socket封装									*
-*********************************************************************/
+/*************************************************************************
+*	文件名称:	socket_handle.h											 *
+*	创建时间：	2014/03/17												 *
+*	作   者 :	xzben													 *
+*	文件功能:	本文件主要用于socket相关的头文件包含和参数的跨平台兼容设计	 *
+*************************************************************************/
 
 #include"config.h"
 
@@ -11,7 +11,7 @@
 #define __2014_03_17_SOCKET_HANDLE_H__
 
 //SOCKET 句柄类型
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
 	#include<winsock2.h>
 	#pragma comment(lib, "ws2_32.lib")
 	#pragma comment ( lib, "mswsock.lib")
@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////
 	typedef SOCKET					SOCKET_HANDLE;
 	#define	INVALID_SOCKET_HANDLE	INVALID_SOCKET
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 	#include <sys/socket.h>
 	#include <sys/types.h>
 	#include <arpa/inet.h>
@@ -34,7 +34,7 @@
 	#define	SD_SEND					SHUT_WR					
 	#define	SD_BOTH					SHUT_RDWR	
 ////////////////////////////////////////////////////////////
-	typedef int						SOCKET_HANDLE;
+	typedef int32					SOCKET_HANDLE;
 	#define	INVALID_SOCKET_HANDLE	-1
 	#define	GetLastError()			 errno
 #endif//平台相关

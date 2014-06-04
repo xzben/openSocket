@@ -1,8 +1,8 @@
 /********************************************************************************
-*	文件名称:	Stream.h														*
+*	文件名称:	acceptor.h														*
 *	创建时间：	2014/03/18														*
 *	作   者 :	xzben															*
-*	文件功能:																	*
+*	文件功能:	用于接收连接请求的接收器，设计理念来自ACE							*
 *********************************************************************************/
 
 #include "socket.h"
@@ -12,42 +12,30 @@
 
 BEGIN_NAMESPACE
 
-template<typename StreamType>
+class Stream;
+class InterAddress;
+class TimeValue;
+/*
+*
+*/
 class EXP_IMP_DLL Acceptor
 {
 public:
-	Acceptor(){}
+	Acceptor();
 	/*
 	*	localAddr		acceptor 监听的本地地址
 	*	bReuseAddr		绑定的本地地址是否可重复绑定
 	*/
-	Acceptor(InterAddress& localAddr, bool bReuseAddr = false)
-	{
-		VERIFY(open(localAddr, bReuseAddr));
-	}
-
-	virtual ~Acceptor()
-	{
-
-	}
-	
+	Acceptor(InterAddress& localAddr, bool bReuseAddr = false);
+	virtual ~Acceptor();
 	/*
 	*	localAddr		acceptor 监听的本地地址
 	*	bReuseAddr		绑定的本地地址是否可重复绑定
 	*/
-	bool open(InterAddress& localAddr, bool bReuseAddr = false)
-	{
-		if (!m_sock.open(Socket::SockType::SOCK_TCP))
-			return false;
+	bool open(InterAddress& localAddr, bool bReuseAddr = false);
 
-		if (!m_sock.bind(localAddr))
-			return false;
-	
-		if (!m_sock.listen())
-			return false;
-
-		return true;
-	}
+	bool accept(Stream& streamCon);
+	bool accept(const TimeValue& tmVal, Stream& streamCon);
 private:
 	Socket	m_sock;
 };

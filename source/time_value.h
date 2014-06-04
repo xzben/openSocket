@@ -7,38 +7,38 @@
 
 #include"object.h"
 
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
 	#include <winsock2.h>
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 	#include<sys/time.h>
-#endif//__PLATFORM_WIN32__
+#endif//_WIN32
 
 #ifndef __2014_03_23_TIME_VALUE_H__
 #define __2014_03_23_TIME_VALUE_H__
 
 BEGIN_NAMESPACE
 
-const long ONE_SECOND_TO_MSECOND = 1000;
-const long ONE_SECOND_TO_USECOND = 1000 * 1000;
-const long ONE_MSECOND_TO_USECOND = 1000;
+const int32 ONE_SECOND_TO_MSECOND = 1000;
+const int32 ONE_SECOND_TO_USECOND = 1000 * 1000;
+const int32 ONE_MSECOND_TO_USECOND = 1000;
 
-class TimeValue
+class EXP_IMP_DLL TimeValue
 {
 public:
 	TimeValue();
-	explicit TimeValue(long sencond, long msec = 0, long usec = 0);
+	explicit TimeValue(int32 sencond, int32 msec = 0, int32 usec = 0);
 	explicit TimeValue(const struct timeval& tmval);
 	virtual ~TimeValue();
 
 	//√Î
-	long sec();
+	int32 sec();
 	//∫¡√Î
-	long msec();
+	int32 msec();
 	//Œ¢√Ó
-	long usec();
+	int32 usec();
 
 
-	void set(long sec, long msec = 0, long usec = 0);
+	void set(int32 sec, int32 msec = 0, int32 usec = 0);
 	
 	operator timeval()const;
 	operator const timeval*() const;

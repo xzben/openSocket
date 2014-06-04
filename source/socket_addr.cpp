@@ -13,9 +13,8 @@ BEGIN_NAMESPACE
 InterAddress InterAddress::addr_any;
 
 InterAddress::InterAddress()
-	:InterAddress(0, nullptr)
 {
-
+	open(0, nullptr);
 }
 
 InterAddress::InterAddress(int16 Port, const char*	szIp /*= nullptr*/)
@@ -41,17 +40,17 @@ void InterAddress::open(int16 Port, const char* szIp /*=nullptr*/)
 	m_addr.sin_port = htons(Port);
 	if (nullptr == szIp)
 	{
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
 		m_addr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 		m_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #endif
 	}
 	else
 	{
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
 		m_addr.sin_addr.S_un.S_addr = inet_addr(szIp);
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 		m_addr.sin_addr.s_addr = inet_addr(szIp);
 #endif
 	}
@@ -60,7 +59,9 @@ void InterAddress::open(int16 Port, const char* szIp /*=nullptr*/)
 void InterAddress::open(sockaddr* pSockaddr)
 {
 	VERIFY(sizeof(sockaddr) == sizeof(sockaddr_in));
-	m_addr = *(sockaddr_in*)pSockaddr;
+
+	memcpy(&m_addr, pSockaddr, sizeof(sockaddr_in));
+	//m_addr = *(sockaddr_in*)pSockaddr;
 }
 
 bool InterAddress::getAddress(char* szIp, int16& port)const
@@ -71,7 +72,7 @@ bool InterAddress::getAddress(char* szIp, int16& port)const
 	return true;
 }
 
-int  InterAddress::getAddrLen() const
+int32  InterAddress::getAddrLen() const
 {
 	return sizeof(m_addr);
 }

@@ -5,7 +5,7 @@ TimeValue::TimeValue()
 {
 
 }
-TimeValue::TimeValue(long sencond, long msec /*= 0*/, long usec /*= 0*/)
+TimeValue::TimeValue(int32 sencond, int32 msec /*= 0*/, int32 usec /*= 0*/)
 {
 	set(sencond, msec, usec);
 }
@@ -32,22 +32,22 @@ void TimeValue::normalize()
 	}
 }
 
-long TimeValue::sec()
+int32 TimeValue::sec()
 {
 	return m_tmVal.tv_sec + m_tmVal.tv_usec / ONE_SECOND_TO_USECOND;
 }
 
-long TimeValue::msec()
+int32 TimeValue::msec()
 {
 	return m_tmVal.tv_sec * ONE_SECOND_TO_MSECOND + m_tmVal.tv_usec / ONE_MSECOND_TO_USECOND;
 }
 
-long TimeValue::usec()
+int32 TimeValue::usec()
 {
 	return m_tmVal.tv_sec * ONE_SECOND_TO_USECOND + m_tmVal.tv_usec;
 }
 
-void TimeValue::set(long sec, long msec /*= 0*/, long usec /*= 0*/)
+void TimeValue::set(int32 sec, int32 msec /*= 0*/, int32 usec /*= 0*/)
 {
 	m_tmVal.tv_sec = sec;
 	m_tmVal.tv_usec = usec + msec * ONE_MSECOND_TO_USECOND;

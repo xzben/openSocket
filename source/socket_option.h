@@ -99,12 +99,12 @@ public:
 	*/
 	bool getRemoteAddr(Socket& sock, InterAddress& remoteAddr);
 
-#ifdef __PLATFORM_WIN32__
+#ifdef _WIN32
 	/*
 	*	获取面向连接协议的套接字当前连接建立的秒数,目前只支持win32
 	*/
 	int32 getConnectTime(Socket& sock);
-#endif//__PLATFORM_WIN32__
+#endif//_WIN32
 	/*
 	*	获取/设置 发送/结束 缓冲区的size
 	*/

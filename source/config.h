@@ -51,7 +51,7 @@
 /*************************************************
 **	dll 导入导出配置宏 							**
 **************************************************/
-#ifdef __PLATFORM_WIN32__
+#ifdef _WIN32 //只有window
 	# define EXPORT_DLL												__declspec (dllexport)
 	# define IMPORT_DLL												__declspec (dllimport)
 	# define EXPORT_C_DLL											extern "C" __declspec(dllexport)
@@ -61,7 +61,7 @@
 	# define IMPORT_DLL												
 	# define EXPORT_C_DLL											
 	# define IMPORT_C_DLL
-#endif/__PLATFORM_WIN32__
+#endif/_WIN32
 
 #ifdef  _OPENSOCKET_BUILD_
 	#define EXP_IMP_DLL			EXPORT_DLL

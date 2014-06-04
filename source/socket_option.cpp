@@ -1,6 +1,6 @@
 #include "socket_option.h"
 
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
 	#include <MSWSock.h>
 #endif
 BEGIN_NAMESPACE
@@ -44,27 +44,27 @@ bool SocketOption::isListening(Socket& sock)
 
 bool SocketOption::getRemoteAddr(Socket& sock, InterAddress& remoteAddr)
 {
-	int nLen = remoteAddr.getAddrLen();
+	int32 nLen = remoteAddr.getAddrLen();
 	bool bRet = (0 == getpeername(sock.getHandle(), remoteAddr.getAddress(), &nLen));
 
 #ifdef _DEBUG
-	int nErr = ::GetLastError();
+	int32 nErr = ::GetLastError();
 #endif
 	return bRet;
 }
 
 bool SocketOption::getLocalAddr(Socket& sock, InterAddress& localAddr)
 {
-	int nLen = localAddr.getAddrLen();
+	int32 nLen = localAddr.getAddrLen();
 	bool bRet = (0 == getsockname(sock.getHandle(), localAddr.getAddress(), &nLen));
 
 #ifdef _DEBUG
-	int nErr = ::GetLastError();
+	int32 nErr = ::GetLastError();
 #endif
 	return bRet;
 }
 
-#ifdef __PLATFORM_WIN32__
+#ifdef _WIN32
 int32 SocketOption::getConnectTime(Socket& sock)
 {
 	int32 nSecondConnect = -1;
@@ -74,7 +74,7 @@ int32 SocketOption::getConnectTime(Socket& sock)
 
 	return nSecondConnect;
 }
-#endif//__PLATFORM_WIN32__
+#endif//_WIN32
 
 int32 SocketOption::getRecvBufSize(Socket& sock)
 {
@@ -115,14 +115,14 @@ bool  SocketOption::setBlockMode(Socket& sock, bool bBlock)
 	if (INVALID_SOCKET_HANDLE == hSock)
 		return false;
 
-#if defined(__PLATFORM_WIN32__)
-
+#if defined(_WIN32)
+	sock.setBlocked(bBlock);
 	u_long iMode = bBlock ? 0 : 1;
 	return (SOCKET_ERROR != ioctlsocket(hSock, FIONBIO, &iMode));
 
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 
-	int flag;
+	int32 flag;
 	if (flag = fcntl(fd, F_GETFL, 0) < 0)
 		return false;
 	
@@ -141,13 +141,12 @@ bool  SocketOption::isBlockMode(Socket& sock)
 	if (INVALID_SOCKET_HANDLE == hSock)
 		return false;
 
-#if defined(__PLATFORM_WIN32__)
+#if defined(_WIN32)
+	//return (SOCKET_ERROR != ioctlsocket(hSock, FIONBIO, ));
+	return sock.isBlocked();
+#elif defined(_LINUX)
 
-	return (SOCKET_ERROR != ioctlsocket(hSock, FIONBIO, ));
-
-#elif defined(__PLATFORM_LINUX__)
-
-	int flag;
+	int32 flag;
 	if (flag = fcntl(fd, F_GETFL, 0) < 0)
 		return false;
 
@@ -177,7 +176,7 @@ bool SocketOption::setoption(Socket& sock, uint32 optname, const void *optval, i
 		(char*)optval,
 		optlen));
 
-	int nErr = ::GetLastError();
+	int32 nErr = ::GetLastError();
 
 	return bRet;
 }
@@ -193,7 +192,7 @@ bool SocketOption::getoption(Socket& sock, uint32 optname, void* optval, int32* 
 		(char*)optval,
 		optlen));
 
-	int nErr = ::GetLastError();
+	int32 nErr = ::GetLastError();
 
 	return bRet;
 }

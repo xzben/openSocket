@@ -1,34 +1,38 @@
-#include <socket.h>
+#include <acceptor.h>
+#include <stream.h>
+#include <time_value.h>
 #include <iostream>
 USING_NAMESPACE
 
 int main()
 {
-	Socket sock(Socket::SOCK_TCP);
-	VERIFY( sock.bind(InterAddress(6000)) );
-	VERIFY( sock.listen() );
+	Acceptor acceptor(InterAddress(6000, "127.0.0.1"));
 
 	while (1)
 	{
-		Socket sockCon;
-		InterAddress addrCon;
+		Stream newStream;
 		char   buf[100];
-		if (sock.accept(sockCon, &addrCon))
+		int nDataSize = 0;
+
+		if (acceptor.accept(TimeValue(1), newStream))
 		{
 			char szIp[20]; int16 nPort;
-			int nDataSize = 0;
-			addrCon.getAddress(szIp, nPort);
+			newStream.getRemoteAddress(szIp, nPort);
 
-			printf("connect client ip[%s] port[%d]\n", szIp, nPort);
-			if ((nDataSize = sockCon.recv(buf, 100)) > 0)
+			printf("connected from [%s:%d]\n", szIp, nPort);
+
+			if ((nDataSize = newStream.recv(buf, 100)) > 0)
 			{
 				buf[nDataSize] = '\0';
 				printf("recv from [%s:%d] content : %s\n", szIp, nPort, buf);
 
-				sockCon.send(buf, nDataSize);
+				newStream.send(buf, nDataSize);
 			}
 		}
-		sockCon.close();
+		else
+		{
+			//printf("acceptor time out!!!!\n");
+		}
 	}
 
 	return 0;

@@ -13,7 +13,7 @@ BEGIN_NAMESPACE
 
 Socket::Socket()
 {
-
+	m_hSocket = INVALID_SOCKET_HANDLE;
 }
 
 Socket::Socket(SOCKET_HANDLE hSocket)
@@ -33,6 +33,7 @@ Socket::~Socket()
  
 void	Socket::attach(SOCKET_HANDLE hSocket)
 {
+	ASSERT(INVALID_SOCKET_HANDLE != hSocket);
 	close();
 	m_hSocket = hSocket;
 }
@@ -44,6 +45,15 @@ SOCKET_HANDLE	Socket::dettach()
 	return retHandle;
 }
   
+bool	Socket::isValidTcp()
+{
+	if (INVALID_SOCKET_HANDLE == m_hSocket)
+		return false;
+
+	SocketOption option;
+	return SOCK_TCP == option.getSocketType(*this);
+}
+
 SOCKET_HANDLE	Socket::getHandle()
 {
 	return m_hSocket;
@@ -75,11 +85,11 @@ bool	Socket::close()
   		return true;
 
 	bool bRet = false;
-#if	defined(__PLATFORM_WIN32__)
+#if	defined(_WIN32)
 	bRet = (0 == ::closesocket(m_hSocket));
-#elif defined(__PLATFORM_LINUX__)
+#elif defined(_LINUX)
 	bRet = (0 == ::close(m_hSocket));
-#endif//__PLATFORM_WIN32__
+#endif//_WIN32
 	m_hSocket = INVALID_SOCKET_HANDLE;
 
 	return bRet;
@@ -89,7 +99,7 @@ bool	Socket::bind(const InterAddress& addrBind)
 {
 	if (SOCKET_ERROR == ::bind(m_hSocket, addrBind.getAddress(), addrBind.getAddrLen()))
 	{
-  		int nErr = ::GetLastError();
+  		int32 nErr = ::GetLastError();
   		//常见的err 为 WSAEADDRINUSE  10048
   		return false;
 	}
@@ -100,7 +110,7 @@ bool	Socket::listen(int32 nBacklog /*= 10*/)
 {
 	if (SOCKET_ERROR == ::listen(m_hSocket, nBacklog))
 	{
-  		int nErr = ::GetLastError();
+  		int32 nErr = ::GetLastError();
   		return false;
 	}
 	return true;
@@ -109,7 +119,7 @@ bool	Socket::listen(int32 nBacklog /*= 10*/)
 bool Socket::accept(Socket& sockCon, InterAddress* remoteAddr /*= nullptr*/)
 {
 	InterAddress addrCon;
-	int nAddrLen = addrCon.getAddrLen();
+	int32 nAddrLen = addrCon.getAddrLen();
   
 	SOCKET_HANDLE hConnSocket = ::accept(m_hSocket, addrCon.getAddress(), &nAddrLen);
 	if ( INVALID_SOCKET_HANDLE == hConnSocket)
@@ -137,7 +147,7 @@ bool	Socket::connect(const InterAddress& addrCon)
 {
 	if (SOCKET_ERROR == ::connect(m_hSocket, addrCon.getAddress(), addrCon.getAddrLen()))
 	{
-		int nErr = ::GetLastError();
+		int32 nErr = ::GetLastError();
 		return false;
 	}
 
@@ -147,28 +157,35 @@ bool	Socket::connect(const InterAddress& addrCon)
 bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 {
 	SocketOption option;
-	option.setBlockMode(*this, false);
+	//为了实现连接超时的功能，先将socket设置为非阻塞模式，然后再恢复回原先的模式
+	bool bIsBlock = option.isBlockMode(*this);
+	if ( bIsBlock )  option.setBlockMode(*this, false);
 
-	int nRet = ::connect(m_hSocket, addrCon.getAddress(), addrCon.getAddrLen());
+	int32 nRet = ::connect(m_hSocket, addrCon.getAddress(), addrCon.getAddrLen());
 
 	if (nRet < 0) 
 	{
-		if (EINPROGRESS == ::GetLastError())
+		int32 error = ::GetLastError();
+#ifdef _WIN32
+		if (EWOULDBLOCK == error || WSAEWOULDBLOCK == error)
+#elif  _LINUX
+		if (EINPROGRESS == error)
+#endif
 		{
 			FD_SET wset;
 			FD_ZERO(&wset);
 			FD_SET(m_hSocket, &wset);
-#if defined(__PLATFORM_WIN32__)
-			int nWith = 0;
-#elif defined(__PLATFORM_LINUX__)
-			int nWidth = m_hSocket + 1;
+#if defined(_WIN32)
+			int32 nWith = 0;
+#elif defined(_LINUX)
+			int32 nWidth = m_hSocket + 1;
 #endif
 			if (select(nWith, NULL, &wset, NULL, tmVal) > 0 && FD_ISSET(m_hSocket, &wset))
 			{
-				int valopt;
-				int nLen = sizeof(valopt);
+				int32 valopt;
+				int32 nLen = sizeof(valopt);
 				
-				getsockopt(m_hSocket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &nLen);
+				getsockopt(m_hSocket, SOL_SOCKET, SO_ERROR, (char*)(&valopt), &nLen);
 				if (valopt) 
 				{
 					//fprintf(stderr, "Error in connection() %d - %s/n", valopt, strerror(valopt));
@@ -191,7 +208,8 @@ bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 		}
 	}
 	
-	option.setBlockMode(*this, true);
+	//为了实现连接超时的功能，先将socket设置为非阻塞模式，然后再恢复回原先的模式
+	if(bIsBlock) option.setBlockMode(*this, true);
 
 	return true;
 }
@@ -210,9 +228,9 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 	SET_PTR_VALUE_SAFE(pWriteReady, false);
 	SET_PTR_VALUE_SAFE(pExceptReady, false);
 
-#if defined( __PLATFORM_WIN32__ )
+#if defined( _WIN32 )
 	int32 selectWith = 0;
-#elif define( __PLATFORM_LINUX__ )
+#elif define( _LINUX )
 	int32 selectWith = hSocket + 1;
 #endif
 
@@ -251,10 +269,10 @@ bool Socket::isWriteReady(const TimeValue& tmVal)
 
 int32	Socket::recv(void* pBuf, int32 nLen, int32 nFlag /*= 0*/)
 {
-	int nRecvSize = ::recv(m_hSocket, (char*)pBuf, nLen, nFlag);
+	int32 nRecvSize = ::recv(m_hSocket, (char*)pBuf, nLen, nFlag);
 	if (SOCKET_ERROR == nRecvSize)
 	{
-		int nErr = ::GetLastError();
+		int32 nErr = ::GetLastError();
 		std::cerr << "Socket::recv error : " << nErr << std::endl;
 	}
 
@@ -271,10 +289,10 @@ int32	Socket::recv(void* pBuf, int32 nLen, const TimeValue& tmVal, int32 nFlag /
 
 int32	Socket::send(const void *pBuf, const int32 nLen, int32 nFlag /*= 0*/)
 {
-	int nSendSize = ::send(m_hSocket, (char*)pBuf, nLen, nFlag);
+	int32 nSendSize = ::send(m_hSocket, (char*)pBuf, nLen, nFlag);
 	if (SOCKET_ERROR == nSendSize)
 	{
-		int nErr = ::GetLastError();
+		int32 nErr = ::GetLastError();
 		std::cerr << "Socket::send error : " << nErr << std::endl;
 	}
 
@@ -290,14 +308,14 @@ int32 Socket::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal, i
 }
 
 
-int32 Socket::recvfrom(void* pBuf, int nLen, InterAddress& addFrom, int nFlag /*=0*/)
+int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, int32 nFlag /*=0*/)
 {
-	int nFrom = addFrom.getAddrLen();
+	int32 nFrom = addFrom.getAddrLen();
 
-	int nRecvSize = ::recvfrom(m_hSocket, (char*)pBuf, nLen, nFlag, addFrom.getAddress(), &nFrom);
+	int32 nRecvSize = ::recvfrom(m_hSocket, (char*)pBuf, nLen, nFlag, addFrom.getAddress(), &nFrom);
 	if (SOCKET_ERROR == nRecvSize)
 	{
-		int nErr = ::GetLastError();
+		int32 nErr = ::GetLastError();
 		std::cerr << "Socket::recvfrom error : " << nErr << std::endl;
 	}
 
@@ -305,7 +323,7 @@ int32 Socket::recvfrom(void* pBuf, int nLen, InterAddress& addFrom, int nFlag /*
 	
 }
 
-int32 Socket::recvfrom(void* pBuf, int nLen, InterAddress& addFrom, const TimeValue& tmVal, int nFlag /* = 0 */)
+int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isReadReady(tmVal))
 		return 0;
@@ -313,19 +331,19 @@ int32 Socket::recvfrom(void* pBuf, int nLen, InterAddress& addFrom, const TimeVa
 	return recvfrom(pBuf, nLen, addFrom, nFlag);
 }
 
-int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrTo, int nFlag /*= 0*/)
+int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, int32 nFlag /*= 0*/)
 {
-	int nSendSize = ::sendto(m_hSocket, (char*)pBuf, nLen, nFlag, addrTo.getAddress(), addrTo.getAddrLen());
+	int32 nSendSize = ::sendto(m_hSocket, (char*)pBuf, nLen, nFlag, addrTo.getAddress(), addrTo.getAddrLen());
 	if (SOCKET_ERROR == nSendSize)
 	{
-		int nErr = ::GetLastError();
+		int32 nErr = ::GetLastError();
 		std::cerr << "Socket::Sendto error : "<< nErr << std::endl;
 	}
 
 	return nSendSize;
 }
 
-int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrTo, const TimeValue& tmVal, int nFlag /* = 0 */)
+int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isWriteReady(tmVal))
 		return 0;
@@ -334,7 +352,7 @@ int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrT
 }
 //////////////////////////////////////////////////////////////////////////
 //用于自动装载 SocketLib 用
-#ifdef __PLATFORM_WIN32__
+#ifdef _WIN32
 
  class SocketLibLoadHelper
  {
@@ -348,14 +366,14 @@ int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrT
  		s_destroySockLib();
  	}
  private:
- 	static bool			s_loadSockLib(int nHigh = 2, int nLow = 2);
+ 	static bool			s_loadSockLib(int32 nHigh = 2, int32 nLow = 2);
  	static bool			s_destroySockLib();
  private:
  	static	bool		s_bLoadedSockLib;
  };
  
  bool SocketLibLoadHelper::s_bLoadedSockLib = false;
- bool SocketLibLoadHelper::s_loadSockLib(int nHigh /* = 2 */, int nLow /* = 2 */)
+ bool SocketLibLoadHelper::s_loadSockLib(int32 nHigh /* = 2 */, int32 nLow /* = 2 */)
  {
  	if (s_bLoadedSockLib) //已经加载过，直接返回
  		return true;
@@ -363,7 +381,7 @@ int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrT
  
  	WORD wVersionRequested;
  	WSADATA wsaData;
- 	int err;
+ 	int32 err;
  
  	wVersionRequested = MAKEWORD(nHigh, nLow);
  	err = WSAStartup(wVersionRequested, &wsaData);
@@ -391,6 +409,6 @@ int32 Socket::sendto(const void *pBuf, const int nLen, const InterAddress& addrT
  }
  
  SocketLibLoadHelper g_socketLibLoadHelper; //定义一个全局变量，使运行环境自动装载和卸载 SocketLib
-#endif //__PLATFORM_WIN32__
+#endif //_WIN32
 //////////////////////////////////////////////////////////////////////////
 END_NAMESPACE
