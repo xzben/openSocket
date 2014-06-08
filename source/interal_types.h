@@ -19,6 +19,13 @@ typedef int							int32;
 typedef unsigned int				uint32;
 typedef long long					int64;
 typedef	unsigned long long			uint64;
+typedef uint8						BYTE;
+
+#if defined(_LINUX) //window下有定义但是linux下没有的类型
+	typedef uint32					DWORD;
+#elif defined(_WIN32) //linux下有定义但是window下没有的类型
+	typedef int32					socklen_t;
+#endif
 
 
 #endif //__2014_03_17_INTERAL_TYPES_H__

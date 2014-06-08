@@ -19,7 +19,7 @@ class Socket;
 /*
 *		平台无关的Socket类
 */
-class EXP_IMP_DLL Socket
+class EXP_IMP_DLL Socket : public Object
 {
 public:
 	enum SockType : DWORD

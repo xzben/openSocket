@@ -17,7 +17,7 @@ BEGIN_NAMESPACE
 *		平台无关的 socket internet address 基类，目前实现为 ipv4 版本
 *		以后将以此为基类扩展 ipv4 和 ipv6 版本，目前系统当使用地址都使用此地址
 */
-class EXP_IMP_DLL InterAddress
+class EXP_IMP_DLL InterAddress : public Object
 {
 public:
 	static InterAddress addr_any;

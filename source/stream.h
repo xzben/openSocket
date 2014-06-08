@@ -16,7 +16,7 @@ class TimeValue;
 class Acceptor;
 class Connector;
 
-class EXP_IMP_DLL Stream
+class EXP_IMP_DLL Stream : public Object
 {
 	friend class Acceptor;
 	friend class Connector;

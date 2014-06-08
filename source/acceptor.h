@@ -18,7 +18,7 @@ class TimeValue;
 /*
 *
 */
-class EXP_IMP_DLL Acceptor
+class EXP_IMP_DLL Acceptor : public Object
 {
 public:
 	Acceptor();
