@@ -73,7 +73,7 @@ http://msdn.microsoft.com/en-us/library/windows/desktop/ms740476(v=vs.85).aspx
 
 BEGIN_NAMESPACE
 
-class EXP_IMP_DLL SocketOption
+class EXP_IMP_DLL SocketOption : public Object
 {
 public:
 	SocketOption();

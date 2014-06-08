@@ -15,7 +15,7 @@ BEGIN_NAMESPACE
 /*
 *	确保其继承子类不能复制
 */
-class NoCopyAble
+class EXP_IMP_DLL NoCopyAble
 {
 protected:
 	NoCopyAble(){}
@@ -28,7 +28,7 @@ private:
 /*
 *	系统中所有类的公共基类
 */
-class Object
+class EXP_IMP_DLL Object
 {
 public:
 	Object();

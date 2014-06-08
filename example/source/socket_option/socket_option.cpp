@@ -29,18 +29,22 @@ int main()
 
 	printf("is listening [%s]\n", option.isListening(tcpSock) ? "On" : "Off");
 
+
 	Socket::SockType type;
 	InterAddress local, remote;
 	tcpSock.bind(InterAddress(1000));
 	//tcpSock.bind(InterAddress(6001, "192.168.137.1"));
 	if (tcpSock.connect(InterAddress(6000, "127.0.0.1")))
 	{
+		printf("connected success!!\n");
+#ifdef _WIN32
 		while (1)
 		{
 			int time = option.getConnectTime(tcpSock);
 			std::cout << time << std::endl;
 			if (time >= 2) break;
 		}
+#endif //_WIN32
 	}
 	else
 		printf("Connect faild!\n");

@@ -27,6 +27,8 @@
 	#include <sys/socket.h>
 	#include <sys/types.h>
 	#include <arpa/inet.h>
+	#include <netinet/in.h>
+	#include <unistd.h>
 	#include <errno.h>
 ////////////////////////////////////////////////////////////
 //	统一 socket shutdown 的参数
@@ -36,7 +38,8 @@
 ////////////////////////////////////////////////////////////
 	typedef int32					SOCKET_HANDLE;
 	#define	INVALID_SOCKET_HANDLE	-1
-	#define	GetLastError()			 errno
+	#define	SOCKET_ERROR			-1
+	int32	GetLastError()			{ return errno;}
 #endif//平台相关
 
 #endif//__2014_03_17_SOCKET_HANDLE_H__

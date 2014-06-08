@@ -1,12 +1,12 @@
 #include "socket.h"
-#include "Stream.h"
+#include "stream.h"
 
 #ifndef __2014_03_22_CONNECTOR_H__
 #define __2014_03_22_CONNECTOR_H__
 
 BEGIN_NAMESPACE
 
-class EXP_IMP_DLL Connector
+class EXP_IMP_DLL Connector : public Object
 {
 public:
 	Connector();

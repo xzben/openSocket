@@ -22,7 +22,7 @@ const int32 ONE_SECOND_TO_MSECOND = 1000;
 const int32 ONE_SECOND_TO_USECOND = 1000 * 1000;
 const int32 ONE_MSECOND_TO_USECOND = 1000;
 
-class EXP_IMP_DLL TimeValue
+class EXP_IMP_DLL TimeValue : public Object
 {
 public:
 	TimeValue();

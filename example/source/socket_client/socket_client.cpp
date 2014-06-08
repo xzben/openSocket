@@ -9,7 +9,7 @@ int main()
 	Stream stream;
 	Connector connector;
 
-	if(connector.connect(stream, InterAddress(6000, "127.0.0.1"), TimeValue(2)) )
+	if(connector.connect(stream, InterAddress(6000, "127.0.0.1"), TimeValue(1)) )
 	{
 		char buf[100] = "hello world!";
 		if( SOCKET_ERROR != stream.send(buf, strlen(buf)) )

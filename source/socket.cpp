@@ -119,7 +119,7 @@ bool	Socket::listen(int32 nBacklog /*= 10*/)
 bool Socket::accept(Socket& sockCon, InterAddress* remoteAddr /*= nullptr*/)
 {
 	InterAddress addrCon;
-	int32 nAddrLen = addrCon.getAddrLen();
+	socklen_t nAddrLen = addrCon.getAddrLen();
   
 	SOCKET_HANDLE hConnSocket = ::accept(m_hSocket, addrCon.getAddress(), &nAddrLen);
 	if ( INVALID_SOCKET_HANDLE == hConnSocket)
@@ -230,7 +230,7 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 
 #if defined( _WIN32 )
 	int32 selectWith = 0;
-#elif define( _LINUX )
+#elif defined( _LINUX )
 	int32 selectWith = hSocket + 1;
 #endif
 
