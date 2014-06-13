@@ -56,25 +56,21 @@ void TimeValue::set(int32 sec, int32 msec /*= 0*/, int32 usec /*= 0*/)
 	normalize();
 }
 
-TimeValue::operator timeval()const
+TimeValue::operator struct timeval()const
 {
 	return m_tmVal;
 }
 
-TimeValue::operator const timeval*() const
+TimeValue::operator const struct timeval*() const
 {
 	return &m_tmVal;
 }
 
-TimeValue::operator timeval*()
+TimeValue::operator timeval*() const
 {
-	return &m_tmVal;
+	TimeValue *pThis = const_cast<TimeValue*>(this);
+	return &(pThis->m_tmVal);
 }
-//TimeValue::operator timeval*() const
-//{
-//	TimeValue *pThis = const_cast<TimeValue*>(this);
-//	return &(pThis->m_tmVal);
-//}
 
 TimeValue& TimeValue::operator+(const TimeValue& rTime)
 {

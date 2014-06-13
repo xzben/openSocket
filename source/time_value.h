@@ -42,9 +42,8 @@ public:
 	void set(int32 sec, int32 msec = 0, int32 usec = 0);
 	
 	operator timeval() const ;
-//	operator timeval*() const ;
+	operator timeval*() const ;
 	operator const timeval*() const;
-	operator timeval*();
 
 	TimeValue& operator+(const TimeValue& rTime);
 	TimeValue& operator-(const TimeValue& rTime);

@@ -35,7 +35,7 @@ public:
 	bool open(InterAddress& localAddr, bool bReuseAddr = false);
 
 	bool accept(Stream& streamCon);
-	bool accept(TimeValue& tmVal, Stream& streamCon);
+	bool accept(const TimeValue& tmVal, Stream& streamCon);
 private:
 	Socket	m_sock;
 };

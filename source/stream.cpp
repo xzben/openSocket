@@ -17,7 +17,7 @@ int32	Stream::recv(void* pBuf, int32 nLen)
 {
 	return getSocket().recv(pBuf, nLen);
 }
-int32	Stream::recv(void* pBuf, int32 nLen, TimeValue& tmVal)
+int32	Stream::recv(void* pBuf, int32 nLen, const TimeValue& tmVal)
 {
 	return getSocket().recv(pBuf, nLen, tmVal);
 }
@@ -27,7 +27,7 @@ int32	Stream::send(const void *pBuf, const int32 nLen)
 	return getSocket().send(pBuf, nLen);
 }
 
-int32	Stream::send(const void *pBuf, const int32 nLen, TimeValue& tmVal)
+int32	Stream::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal)
 {
 	return getSocket().send(pBuf, nLen, tmVal);
 }

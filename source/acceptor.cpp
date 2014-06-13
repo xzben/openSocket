@@ -37,7 +37,7 @@ bool Acceptor::accept(Stream& streamCon)
 	return m_sock.accept(streamCon.getSocket(), &streamCon.getRemoteAddress());
 }
 
-bool Acceptor::accept(TimeValue& tmVal, Stream& streamCon)
+bool Acceptor::accept(const TimeValue& tmVal, Stream& streamCon)
 {
 	return m_sock.accept(tmVal, streamCon.getSocket(), &streamCon.getRemoteAddress());
 }

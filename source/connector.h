@@ -13,7 +13,7 @@ public:
 	virtual ~Connector();
 	
 	bool connect(Stream& stream, const InterAddress& addrCon);
-	bool connect(Stream& stream, const InterAddress& addrCon, TimeValue& tmVal);
+	bool connect(Stream& stream, const InterAddress& addrCon, const TimeValue& tmVal);
 
 protected:
 	// 检查 当前连接流是否为有效的TCP套接字。如果不是则强制将其初始化为有效的TCP

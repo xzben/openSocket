@@ -135,7 +135,7 @@ bool Socket::accept(Socket& sockCon, InterAddress* remoteAddr /*= nullptr*/)
 	return true;
 }
 
-bool Socket::accept(TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr /* = nullptr */)
+bool Socket::accept(const TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr /* = nullptr */)
 {
 	if (!isReadReady(tmVal))
 		return false;
@@ -154,7 +154,7 @@ bool	Socket::connect(const InterAddress& addrCon)
 	return true;
 }
   
-bool	Socket::connect(const InterAddress& addrCon, TimeValue& tmVal)
+bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 {
 	SocketOption option;
 	//为了实现连接超时的功能，先将socket设置为非阻塞模式，然后再恢复回原先的模式
@@ -167,7 +167,7 @@ bool	Socket::connect(const InterAddress& addrCon, TimeValue& tmVal)
 	{
 		int32 error = ::GetLastError();
 #ifdef _WIN32
-		if (EWOULDBLOCK == error || WSAEWOULDBLOCK == error)
+		if ( WSAEWOULDBLOCK == error)
 #elif  _LINUX
 		if (EINPROGRESS == error)
 #endif
@@ -214,7 +214,7 @@ bool	Socket::connect(const InterAddress& addrCon, TimeValue& tmVal)
 	return true;
 }
 
-int32	Socket::getReadyStatus(TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
+int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
 	bool* pWriteReady /*= nullptr*/, bool* pExceptReady/*= nullptr*/)
 {
 	if (INVALID_SOCKET_HANDLE == m_hSocket)
@@ -250,7 +250,7 @@ int32	Socket::getReadyStatus(TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
 	return nRet;
 }
 
-bool Socket::isReadReady(TimeValue& tmVal)
+bool Socket::isReadReady(const TimeValue& tmVal)
 {
 	bool bReady = false;
 	VERIFY(getReadyStatus(tmVal, &bReady, nullptr, nullptr) >= 0);
@@ -259,7 +259,7 @@ bool Socket::isReadReady(TimeValue& tmVal)
 }
 
 
-bool Socket::isWriteReady(TimeValue& tmVal)
+bool Socket::isWriteReady(const TimeValue& tmVal)
 {
 	bool bReady = false;
 	VERIFY(getReadyStatus(tmVal, nullptr, &bReady, nullptr) >= 0);
@@ -278,7 +278,7 @@ int32	Socket::recv(void* pBuf, int32 nLen, int32 nFlag /*= 0*/)
 	return nRecvSize;
 }
 
-int32	Socket::recv(void* pBuf, int32 nLen, TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32	Socket::recv(void* pBuf, int32 nLen, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isReadReady(tmVal))
 		return 0;
@@ -297,7 +297,7 @@ int32	Socket::send(const void *pBuf, const int32 nLen, int32 nFlag /*= 0*/)
 	return nSendSize;
 }
 
-int32 Socket::send(const void *pBuf, const int32 nLen, TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isWriteReady(tmVal))
 		return 0;
@@ -320,7 +320,7 @@ int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, int32 nFla
 	
 }
 
-int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isReadReady(tmVal))
 		return 0;
@@ -339,7 +339,7 @@ int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& add
 	return nSendSize;
 }
 
-int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, const TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isWriteReady(tmVal))
 		return 0;
