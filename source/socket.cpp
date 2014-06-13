@@ -7,7 +7,7 @@
 
 #include "socket.h"
 #include "socket_option.h"
-#include <iostream>
+#include "socket_handle.h"
 
 BEGIN_NAMESPACE
 
@@ -135,7 +135,7 @@ bool Socket::accept(Socket& sockCon, InterAddress* remoteAddr /*= nullptr*/)
 	return true;
 }
 
-bool Socket::accept(const TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr /* = nullptr */)
+bool Socket::accept(TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr /* = nullptr */)
 {
 	if (!isReadReady(tmVal))
 		return false;
@@ -154,7 +154,7 @@ bool	Socket::connect(const InterAddress& addrCon)
 	return true;
 }
   
-bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
+bool	Socket::connect(const InterAddress& addrCon, TimeValue& tmVal)
 {
 	SocketOption option;
 	//为了实现连接超时的功能，先将socket设置为非阻塞模式，然后再恢复回原先的模式
@@ -172,18 +172,18 @@ bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 		if (EINPROGRESS == error)
 #endif
 		{
-			FD_SET wset;
+			fd_set wset;
 			FD_ZERO(&wset);
 			FD_SET(m_hSocket, &wset);
 #if defined(_WIN32)
-			int32 nWith = 0;
+			int32 nWidth = 0;
 #elif defined(_LINUX)
 			int32 nWidth = m_hSocket + 1;
 #endif
-			if (select(nWith, NULL, &wset, NULL, tmVal) > 0 && FD_ISSET(m_hSocket, &wset))
+			if (::select(nWidth, NULL, &wset, NULL, tmVal) > 0 && FD_ISSET(m_hSocket, &wset))
 			{
 				int32 valopt;
-				int32 nLen = sizeof(valopt);
+				socklen_t nLen = sizeof(valopt);
 				
 				getsockopt(m_hSocket, SOL_SOCKET, SO_ERROR, (char*)(&valopt), &nLen);
 				if (valopt) 
@@ -214,7 +214,7 @@ bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 	return true;
 }
 
-int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
+int32	Socket::getReadyStatus(TimeValue& tmVal, bool *pReadReady /*= nullptr*/,
 	bool* pWriteReady /*= nullptr*/, bool* pExceptReady/*= nullptr*/)
 {
 	if (INVALID_SOCKET_HANDLE == m_hSocket)
@@ -231,7 +231,7 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 #if defined( _WIN32 )
 	int32 selectWith = 0;
 #elif defined( _LINUX )
-	int32 selectWith = hSocket + 1;
+	int32 selectWith = m_hSocket + 1;
 #endif
 
 	int32 nRet = ::select(selectWith, 
@@ -243,14 +243,14 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 	if (nRet > 0)
 	{
 		if (FD_ISSET(m_hSocket, &setRead))	 SET_PTR_VALUE_SAFE(pReadReady, true);
-		if (FD_ISSET(m_hSocket, &pWriteReady)) SET_PTR_VALUE_SAFE(pWriteReady, true);
-		if (FD_ISSET(m_hSocket, &pExceptReady))SET_PTR_VALUE_SAFE(pExceptReady, true);
+		if (FD_ISSET(m_hSocket, &setWrite)) SET_PTR_VALUE_SAFE(pWriteReady, true);
+		if (FD_ISSET(m_hSocket, &setExcept))SET_PTR_VALUE_SAFE(pExceptReady, true);
 	}
 
 	return nRet;
 }
 
-bool Socket::isReadReady(const TimeValue& tmVal)
+bool Socket::isReadReady(TimeValue& tmVal)
 {
 	bool bReady = false;
 	VERIFY(getReadyStatus(tmVal, &bReady, nullptr, nullptr) >= 0);
@@ -259,7 +259,7 @@ bool Socket::isReadReady(const TimeValue& tmVal)
 }
 
 
-bool Socket::isWriteReady(const TimeValue& tmVal)
+bool Socket::isWriteReady(TimeValue& tmVal)
 {
 	bool bReady = false;
 	VERIFY(getReadyStatus(tmVal, nullptr, &bReady, nullptr) >= 0);
@@ -273,13 +273,12 @@ int32	Socket::recv(void* pBuf, int32 nLen, int32 nFlag /*= 0*/)
 	if (SOCKET_ERROR == nRecvSize)
 	{
 		int32 nErr = ::GetLastError();
-		std::cerr << "Socket::recv error : " << nErr << std::endl;
 	}
 
 	return nRecvSize;
 }
 
-int32	Socket::recv(void* pBuf, int32 nLen, const TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32	Socket::recv(void* pBuf, int32 nLen, TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isReadReady(tmVal))
 		return 0;
@@ -293,13 +292,12 @@ int32	Socket::send(const void *pBuf, const int32 nLen, int32 nFlag /*= 0*/)
 	if (SOCKET_ERROR == nSendSize)
 	{
 		int32 nErr = ::GetLastError();
-		std::cerr << "Socket::send error : " << nErr << std::endl;
 	}
 
 	return nSendSize;
 }
 
-int32 Socket::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::send(const void *pBuf, const int32 nLen, TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isWriteReady(tmVal))
 		return 0;
@@ -310,20 +308,19 @@ int32 Socket::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal, i
 
 int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, int32 nFlag /*=0*/)
 {
-	int32 nFrom = addFrom.getAddrLen();
+	socklen_t nFrom = addFrom.getAddrLen();
 
 	int32 nRecvSize = ::recvfrom(m_hSocket, (char*)pBuf, nLen, nFlag, addFrom.getAddress(), &nFrom);
 	if (SOCKET_ERROR == nRecvSize)
 	{
 		int32 nErr = ::GetLastError();
-		std::cerr << "Socket::recvfrom error : " << nErr << std::endl;
 	}
 
 	return nRecvSize;
 	
 }
 
-int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, const TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isReadReady(tmVal))
 		return 0;
@@ -337,13 +334,12 @@ int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& add
 	if (SOCKET_ERROR == nSendSize)
 	{
 		int32 nErr = ::GetLastError();
-		std::cerr << "Socket::Sendto error : "<< nErr << std::endl;
 	}
 
 	return nSendSize;
 }
 
-int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, const TimeValue& tmVal, int32 nFlag /* = 0 */)
+int32 Socket::sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, TimeValue& tmVal, int32 nFlag /* = 0 */)
 {
 	if (!isWriteReady(tmVal))
 		return 0;

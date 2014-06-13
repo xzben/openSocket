@@ -45,27 +45,27 @@ public:
  	bool			listen(int32 nBacklog = 10);
  	
 	bool			accept(Socket& sockCon, InterAddress* remoteAddr = nullptr);
-	bool			accept(const TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr = nullptr);
+	bool			accept(TimeValue& tmVal, Socket& sockCon, InterAddress* remoteAddr = nullptr);
 
 	bool			connect(const InterAddress& addrCon);
-	bool			connect(const InterAddress& addrCon, const TimeValue& tmVal);
+	bool			connect(const InterAddress& addrCon, TimeValue& tmVal);
 
-	int32			getReadyStatus(const TimeValue& tmVal, bool *pReadReady = nullptr,
+	int32			getReadyStatus(TimeValue& tmVal, bool *pReadReady = nullptr,
 								  bool* pWriteReady = nullptr, bool* pExceptReady = nullptr);
-	bool			isReadReady(const TimeValue& tmVal);
-	bool			isWriteReady(const TimeValue& tmVal);
+	bool			isReadReady(TimeValue& tmVal);
+	bool			isWriteReady(TimeValue& tmVal);
 
 	int32			recv(void* pBuf, int32 nLen, int32 nFlag = 0);
 	int32			recv(void* pBuf, int32 nLen, const TimeValue& tmVal, int32 nFlag = 0);
 
 	int32			send(const void *pBuf, const int32 nLen, int32 nFlag = 0);
-	int32			send(const void *pBuf, const int32 nLen, const TimeValue& tmVal, int32 nFlag = 0);
+	int32			send(const void *pBuf, const int32 nLen, TimeValue& tmVal, int32 nFlag = 0);
 
 	int32			recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, int32 nFlag = 0);
-	int32			recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, const TimeValue& tmVal, int32 nFlag = 0);
+	int32			recvfrom(void* pBuf, int32 nLen, InterAddress& addFrom, TimeValue& tmVal, int32 nFlag = 0);
 
 	int32			sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, int32 nFlag = 0);
-	int32			sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, const TimeValue& tmVal, int32 nFlag = 0);
+	int32			sendto(const void *pBuf, const int32 nLen, const InterAddress& addrTo, TimeValue& tmVal, int32 nFlag = 0);
 protected:
 	SOCKET_HANDLE	m_hSocket = INVALID_SOCKET_HANDLE;	//Ì×½Ó×Ö¾ä±ú
 #ifdef _WIN32

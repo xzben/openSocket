@@ -1,6 +1,8 @@
+#include <iostream>
 #include <stream.h>
 #include <connector.h>
-#include <iostream>
+#include <memory.h>
+using namespace std;
 USING_NAMESPACE
 
 

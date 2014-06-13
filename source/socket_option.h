@@ -124,8 +124,8 @@ public:
 	bool	setBlockMode(Socket& sock, bool bBlock);
 	bool	isBlockMode(Socket& sock);
 private:
-	bool setoption(Socket& sock, uint32 optname, const void *optval, int32 optlen);
-	bool getoption(Socket& sock, uint32 optname, void* optval, int32* optlen);
+	bool setoption(Socket& sock, uint32 optname, const void *optval, socklen_t optlen);
+	bool getoption(Socket& sock, uint32 optname, void* optval, socklen_t* optlen);
 };
 
 END_NAMESPACE

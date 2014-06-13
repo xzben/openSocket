@@ -19,7 +19,7 @@ bool Connector::connect(Stream& stream, const InterAddress& addrCon)
 	return stream.getSocket().connect(addrCon);
 }
 
-bool Connector::connect(Stream& stream, const InterAddress& addrCon, const TimeValue& tmVal)
+bool Connector::connect(Stream& stream, const InterAddress& addrCon, TimeValue& tmVal)
 {
 	checkStream(stream);
 	stream.getRemoteAddress().open(addrCon.getAddress());

@@ -6,7 +6,7 @@
 *********************************************************************************/
 
 #include "socket_addr.h"
-#include <cstring>
+#include <memory.h>
 
 BEGIN_NAMESPACE
 
@@ -68,6 +68,7 @@ bool InterAddress::getAddress(char* szIp, int16& port)const
 {
 	port = ntohs(m_addr.sin_port);
 	strcpy_s(szIp, 20, inet_ntoa(m_addr.sin_addr));
+
 
 	return true;
 }

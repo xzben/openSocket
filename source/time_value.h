@@ -6,17 +6,18 @@
 *********************************************************************/
 
 #include"object.h"
+#ifndef __2014_03_23_TIME_VALUE_H__
+#define __2014_03_23_TIME_VALUE_H__
 
+BEGIN_NAMESPACE
+
+#include <time.h>
 #if defined(_WIN32)
 	#include <winsock2.h>
 #elif defined(_LINUX)
 	#include<sys/time.h>
 #endif//_WIN32
 
-#ifndef __2014_03_23_TIME_VALUE_H__
-#define __2014_03_23_TIME_VALUE_H__
-
-BEGIN_NAMESPACE
 
 const int32 ONE_SECOND_TO_MSECOND = 1000;
 const int32 ONE_SECOND_TO_USECOND = 1000 * 1000;
@@ -40,11 +41,13 @@ public:
 
 	void set(int32 sec, int32 msec = 0, int32 usec = 0);
 	
-	operator timeval()const;
+	operator timeval() const ;
+//	operator timeval*() const ;
 	operator const timeval*() const;
+	operator timeval*();
 
-	TimeValue operator+(const TimeValue& rTime);
-	TimeValue operator-(const TimeValue& rTime);
+	TimeValue& operator+(const TimeValue& rTime);
+	TimeValue& operator-(const TimeValue& rTime);
 
 private:
 	void normalize();

@@ -26,10 +26,10 @@ public:
 
 
 	int32	recv(void* pBuf, int32 nLen);
-	int32	recv(void* pBuf, int32 nLen, const TimeValue& tmVal);
+	int32	recv(void* pBuf, int32 nLen, TimeValue& tmVal);
 
 	int32	send(const void *pBuf, const int32 nLen);
-	int32	send(const void *pBuf, const int32 nLen, const TimeValue& tmVal);
+	int32	send(const void *pBuf, const int32 nLen, TimeValue& tmVal);
 
 	bool	getRemoteAddress(char* szIp, int16& port);
 protected:

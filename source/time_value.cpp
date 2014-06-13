@@ -1,6 +1,7 @@
 #include "time_value.h"
 
 BEGIN_NAMESPACE
+
 TimeValue::TimeValue()
 {
 
@@ -65,7 +66,17 @@ TimeValue::operator const timeval*() const
 	return &m_tmVal;
 }
 
-TimeValue TimeValue::operator+(const TimeValue& rTime)
+TimeValue::operator timeval*()
+{
+	return &m_tmVal;
+}
+//TimeValue::operator timeval*() const
+//{
+//	TimeValue *pThis = const_cast<TimeValue*>(this);
+//	return &(pThis->m_tmVal);
+//}
+
+TimeValue& TimeValue::operator+(const TimeValue& rTime)
 {
 	this->set(m_tmVal.tv_sec + rTime.m_tmVal.tv_sec,
 			0,
@@ -74,7 +85,7 @@ TimeValue TimeValue::operator+(const TimeValue& rTime)
 	return *this;
 }
 
-TimeValue TimeValue::operator-(const TimeValue& rTime)
+TimeValue& TimeValue::operator-(const TimeValue& rTime)
 {
 	this->set(m_tmVal.tv_sec - rTime.m_tmVal.tv_sec,
 		0,

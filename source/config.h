@@ -5,6 +5,7 @@
 *	文件功能:	本文件包含系统中必备的配制							*
 *********************************************************************/
 
+#include <cstddef>
 #include "interal_types.h"
 #include <cassert>
 
@@ -68,7 +69,7 @@
 	# define IMPORT_DLL												
 	# define EXPORT_C_DLL											
 	# define IMPORT_C_DLL
-#endif/_WIN32
+#endif//_WIN32
 
 #ifdef  _OPENSOCKET_BUILD_
 	#define EXP_IMP_DLL			EXPORT_DLL

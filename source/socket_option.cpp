@@ -2,6 +2,8 @@
 
 #if defined(_WIN32)
 	#include <MSWSock.h>
+#elif defined(_LINUX)
+	#include <fcntl.h>
 #endif
 BEGIN_NAMESPACE
 
@@ -25,7 +27,7 @@ bool SocketOption::setResueAddr(Socket& sock, bool bReuse)
 bool SocketOption::isReuseAddr(Socket& sock)
 {
 	DWORD opt = 0;
-	int32 optlen = sizeof(opt);
+	socklen_t optlen = sizeof(opt);
 
 	VERIFY(getoption(sock, SO_REUSEADDR, &opt, &optlen));
 
@@ -35,7 +37,7 @@ bool SocketOption::isReuseAddr(Socket& sock)
 bool SocketOption::isListening(Socket& sock)
 {
 	DWORD opt = 0;
-	int32 optlen = sizeof(opt);
+	socklen_t optlen = sizeof(opt);
 
 	VERIFY(getoption(sock, SO_ACCEPTCONN, &opt, &optlen));
 
@@ -44,7 +46,7 @@ bool SocketOption::isListening(Socket& sock)
 
 bool SocketOption::getRemoteAddr(Socket& sock, InterAddress& remoteAddr)
 {
-	int32 nLen = remoteAddr.getAddrLen();
+	socklen_t nLen = remoteAddr.getAddrLen();
 	bool bRet = (0 == getpeername(sock.getHandle(), remoteAddr.getAddress(), &nLen));
 
 #ifdef _DEBUG
@@ -55,7 +57,7 @@ bool SocketOption::getRemoteAddr(Socket& sock, InterAddress& remoteAddr)
 
 bool SocketOption::getLocalAddr(Socket& sock, InterAddress& localAddr)
 {
-	int32 nLen = localAddr.getAddrLen();
+	socklen_t nLen = localAddr.getAddrLen();
 	bool bRet = (0 == getsockname(sock.getHandle(), localAddr.getAddress(), &nLen));
 
 #ifdef _DEBUG
@@ -68,7 +70,7 @@ bool SocketOption::getLocalAddr(Socket& sock, InterAddress& localAddr)
 int32 SocketOption::getConnectTime(Socket& sock)
 {
 	int32 nSecondConnect = -1;
-	int32 nOptLen = sizeof(nSecondConnect);
+	socklen_t nOptLen = sizeof(nSecondConnect);
 
 	VERIFY(getoption(sock, SO_CONNECT_TIME, &nSecondConnect, &nOptLen));
 
@@ -79,7 +81,7 @@ int32 SocketOption::getConnectTime(Socket& sock)
 int32 SocketOption::getRecvBufSize(Socket& sock)
 {
 	int32 nOptVal = 0;
-	int32 nOptLen = sizeof(nOptVal);
+	socklen_t nOptLen = sizeof(nOptVal);
 	
 	VERIFY(getoption(sock, SO_RCVBUF, &nOptVal, &nOptLen));
 
@@ -89,7 +91,7 @@ int32 SocketOption::getRecvBufSize(Socket& sock)
 int32 SocketOption::getSendBufSize(Socket& sock)
 {
 	int32 nOptVal = 0;
-	int32 nOptLen = sizeof(nOptVal);
+	socklen_t nOptLen = sizeof(nOptVal);
 
 	VERIFY(getoption(sock, SO_SNDBUF, &nOptVal, &nOptLen));
 
@@ -99,7 +101,7 @@ int32 SocketOption::getSendBufSize(Socket& sock)
 Socket::SockType SocketOption::getSocketType(Socket& sock)
 {
 	int32 nOptVal = 0;
-	int32 nOptLen = sizeof(nOptVal);
+	socklen_t nOptLen = sizeof(nOptVal);
 
 	VERIFY(getoption(sock, SO_TYPE, &nOptVal, &nOptLen));
 
@@ -123,12 +125,12 @@ bool  SocketOption::setBlockMode(Socket& sock, bool bBlock)
 #elif defined(_LINUX)
 
 	int32 flag;
-	if (flag = fcntl(fd, F_GETFL, 0) < 0)
+	if (flag = fcntl(hSock, F_GETFL, 0) < 0)
 		return false;
 	
 	SET_DEL_BIT( flag, O_NONBLOCK, !bBlock );
 
-	if (fcntl(fd, F_SETFL, flag) < 0)
+	if (fcntl(hSock, F_SETFL, flag) < 0)
 		return false;
 
 	return true;
@@ -147,7 +149,7 @@ bool  SocketOption::isBlockMode(Socket& sock)
 #elif defined(_LINUX)
 
 	int32 flag;
-	if (flag = fcntl(fd, F_GETFL, 0) < 0)
+	if (flag = fcntl(hSock, F_GETFL, 0) < 0)
 		return false;
 
 	return QUERY_IS_SET_BIT(flag, O_NONBLOCK);
@@ -165,7 +167,7 @@ bool  SocketOption::setSendBufSize(Socket& sock, int32 nBufSize)
 	return setoption(sock, SO_SNDBUF, &nBufSize, sizeof(nBufSize));
 }
 
-bool SocketOption::setoption(Socket& sock, uint32 optname, const void *optval, int32 optlen)
+bool SocketOption::setoption(Socket& sock, uint32 optname, const void *optval, socklen_t optlen)
 {
 	SOCKET_HANDLE hSocket = sock.getHandle();
 	if (INVALID_SOCKET_HANDLE == hSocket)
@@ -181,7 +183,7 @@ bool SocketOption::setoption(Socket& sock, uint32 optname, const void *optval, i
 	return bRet;
 }
 
-bool SocketOption::getoption(Socket& sock, uint32 optname, void* optval, int32* optlen)
+bool SocketOption::getoption(Socket& sock, uint32 optname, void* optval, socklen_t* optlen)
 {
 	SOCKET_HANDLE hSocket = sock.getHandle();
 	if (INVALID_SOCKET_HANDLE == hSocket)

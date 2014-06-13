@@ -15,9 +15,9 @@ ADD_LIBDIR	=
 #要包含的库名，每个库名用空格隔开
 ADD_LIB		=
 #编译生存的obj文件存放路径
-BIN_DIR		= ./bin/
+BIN_DIR		= ./../bin/
 #生成输出目录
-OUTPUT_DIR	= ./output/
+OUTPUT_DIR	= ./../output/
 #生成的output的类型
 # 1 代表生成可执行文件
 # 2 代表生成静态库文件
@@ -55,7 +55,7 @@ OBJECTS		= $(addprefix $(BIN_DIR), $(patsubst %.cpp,%.o,$(shell ls *.c*)))
 
 all:pre_command $(OBJECTS)
 	@if [ 1 -eq $(OUTPUT_TYPE) ];then\
-		$(CC) -o $(OUTPUT_FULL_NAME) $(OBJECTS) $(FLAGS_LINK) ;\
+		$(CC) -o $(OUTPUT_FULL_NAME) $(OBJECTS) $(FLAGS_LINK);\
 	elif [ 2 -eq $(OUTPUT_TYPE) ];then\
 		ar crs $(OUTPUT_FULL_NAME) $(OBJECTS);\
 	elif [ 3 -eq $(OUTPUT_TYPE) ];then\

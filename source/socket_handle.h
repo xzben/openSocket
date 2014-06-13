@@ -22,10 +22,11 @@
 	#define	SHUT_RDWR				SD_BOTH
 ////////////////////////////////////////////////////////
 	typedef SOCKET					SOCKET_HANDLE;
-	#define	INVALID_SOCKET_HANDLE	INVALID_SOCKET
+	#define	INVALID_SOCKET_HANDLE			INVALID_SOCKET
 #elif defined(_LINUX)
 	#include <sys/socket.h>
 	#include <sys/types.h>
+	#include <sys/select.h>
 	#include <arpa/inet.h>
 	#include <netinet/in.h>
 	#include <unistd.h>
@@ -37,9 +38,9 @@
 	#define	SD_BOTH					SHUT_RDWR	
 ////////////////////////////////////////////////////////////
 	typedef int32					SOCKET_HANDLE;
-	#define	INVALID_SOCKET_HANDLE	-1
-	#define	SOCKET_ERROR			-1
-	int32	GetLastError()			{ return errno;}
+	#define	INVALID_SOCKET_HANDLE			-1
+	#define	SOCKET_ERROR				-1
+	extern int32 	GetLastError();
 #endif//平台相关
 
 #endif//__2014_03_17_SOCKET_HANDLE_H__
