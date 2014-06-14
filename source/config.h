@@ -5,6 +5,7 @@
 *	文件功能:	本文件包含系统中必备的配制							*
 *********************************************************************/
 
+#include <iostream>
 #include <cstddef>
 #include "interal_types.h"
 #include <cassert>

@@ -1,7 +1,7 @@
+#include <iostream>
 #include <acceptor.h>
 #include <stream.h>
 #include <time_value.h>
-#include <iostream>
 USING_NAMESPACE
 
 int main()
@@ -31,7 +31,7 @@ int main()
 		}
 		else
 		{
-			//printf("acceptor time out!!!!\n");
+			printf("acceptor time out!!!!\n");
 		}
 	}
 

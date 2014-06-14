@@ -153,7 +153,7 @@ bool	Socket::connect(const InterAddress& addrCon)
 
 	return true;
 }
-  
+
 bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 {
 	SocketOption option;
@@ -180,7 +180,7 @@ bool	Socket::connect(const InterAddress& addrCon, const TimeValue& tmVal)
 #elif defined(_LINUX)
 			int32 nWidth = m_hSocket + 1;
 #endif
-			if (::select(nWidth, NULL, &wset, NULL, tmVal) > 0 && FD_ISSET(m_hSocket, &wset))
+			if (::select(nWidth, NULL, &wset, NULL, tmVal.getTimeval()) > 0 && FD_ISSET(m_hSocket, &wset))
 			{
 				int32 valopt;
 				socklen_t nLen = sizeof(valopt);
@@ -237,7 +237,7 @@ int32	Socket::getReadyStatus(const TimeValue& tmVal, bool *pReadReady /*= nullpt
 	int32 nRet = ::select(selectWith, 
 		pReadReady	 ? &setRead  : nullptr,
 		pWriteReady	 ? &setWrite : nullptr,
-		pExceptReady ? &setExcept: nullptr, tmVal);
+		pExceptReady ? &setExcept: nullptr, tmVal.getTimeval());
 
 
 	if (nRet > 0)
