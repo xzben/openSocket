@@ -17,7 +17,7 @@ InterAddress::InterAddress()
 	open(0, nullptr);
 }
 
-InterAddress::InterAddress(int16 Port, const char*	szIp /*= nullptr*/)
+InterAddress::InterAddress(int32 Port, const char*	szIp /*= nullptr*/)
 {
 	open(Port, szIp);
 }
@@ -32,7 +32,7 @@ InterAddress::~InterAddress()
 
 }
 
-void InterAddress::open(int16 Port, const char* szIp /*=nullptr*/)
+void InterAddress::open(int32 Port, const char* szIp /*=nullptr*/)
 {
 	memset(&m_addr, 0, sizeof(m_addr));
 
@@ -64,7 +64,7 @@ void InterAddress::open(sockaddr* pSockaddr)
 	//m_addr = *(sockaddr_in*)pSockaddr;
 }
 
-bool InterAddress::getAddress(char* szIp, int16& port)const
+bool InterAddress::getAddress(char* szIp, int32& port)const
 {
 	port = ntohs(m_addr.sin_port);
 	strcpy_s(szIp, 20, inet_ntoa(m_addr.sin_addr));

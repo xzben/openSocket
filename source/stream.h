@@ -32,8 +32,8 @@ public:
 	int32	send(const void *pBuf, const int32 nLen);
 	int32	send(const void *pBuf, const int32 nLen, const TimeValue& tmVal);
 	
-	bool 	getLocalAddress(char* szIp, int16& port);
-	bool	getRemoteAddress(char* szIp, int16& port);
+	bool 	getLocalAddress(char* szIp, int32& port);
+	bool	getRemoteAddress(char* szIp, int32& port);
 protected:
 	Socket&			getSocket();
 	InterAddress&   getRemoteAddress();

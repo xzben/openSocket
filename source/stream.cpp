@@ -33,12 +33,12 @@ int32	Stream::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal)
 	return getSocket().send(pBuf, nLen, tmVal);
 }
 
-bool	Stream::getRemoteAddress(char* szIp, int16& port)
+bool	Stream::getRemoteAddress(char* szIp, int32& port)
 {
 	return m_remoteAddress.getAddress(szIp, port);
 }
 
-bool 	Stream::getLocalAddress(char* szIp, int16& port)
+bool 	Stream::getLocalAddress(char* szIp, int32& port)
 {
 	SocketOption option;
 	InterAddress localAddr;

@@ -51,7 +51,7 @@ int main()
 
 	option.getLocalAddr(tcpSock, local);
 	option.getRemoteAddr(tcpSock, remote);
-	char szIp[20]; int16 nPort;
+	char szIp[20]; int32 nPort;
 
 	local.getAddress(szIp, nPort);
 	printf("load ip[ %s ] port[ %d ]\n", szIp, nPort);

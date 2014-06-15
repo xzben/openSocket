@@ -15,7 +15,7 @@ int main()
 	
 	if( connector.connect(stream, InterAddress(6000, "127.0.0.1"), TimeValue(1)) )
 	{
-		char ip[20]; int16 port;
+		char ip[20]; int32 port;
 		stream.getLocalAddress(ip, port);
 		printf("local addr:[%s][%d]\n", ip, port);			
 		char buf[100] = "hello world!";

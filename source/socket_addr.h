@@ -23,15 +23,15 @@ public:
 	static InterAddress addr_any;
 public:
 	InterAddress();
-	InterAddress(int16 Port, const char* szIp = nullptr);
+	InterAddress(int32 Port, const char* szIp = nullptr);
 	InterAddress(sockaddr*	pSockaddr);
 	virtual ~InterAddress();
 
-	virtual	void		open(int16 Port, const char* szIp = nullptr);
+	virtual	void		open(int32 Port, const char* szIp = nullptr);
 	virtual void		open(sockaddr*	pSockaddr);
 	virtual int32		getAddrLen() const;
 	virtual sockaddr*	getAddress() const;
-	virtual bool		getAddress(char* szIp, int16& port) const;
+	virtual bool		getAddress(char* szIp, int32& port) const;
 protected:
 	sockaddr_in		m_addr;
 };

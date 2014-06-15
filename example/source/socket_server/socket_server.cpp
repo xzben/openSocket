@@ -17,7 +17,7 @@ int main()
 
 		if (acceptor.accept(TimeValue(1), newStream))
 		{
-			char szIp[20]; int16 nPort;
+			char szIp[20]; int32 nPort;
 			newStream.getRemoteAddress(szIp, nPort);
 
 			printf("connected from [%s:%d]\n", szIp, nPort);
