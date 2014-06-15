@@ -41,7 +41,7 @@ public:
 
 	void set(int32 sec, int32 msec = 0, int32 usec = 0);
 	
-	struct timeval const* getTimeval() const { return &m_tmVal; };
+	struct timeval* getTimeval() const;
 
 // 	operator struct timeval const  () const;
 // 	operator struct timeval const *() const;

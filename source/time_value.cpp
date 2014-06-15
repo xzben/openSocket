@@ -56,6 +56,12 @@ void TimeValue::set(int32 sec, int32 msec /*= 0*/, int32 usec /*= 0*/)
 	normalize();
 }
 
+struct timeval* TimeValue::getTimeval() const
+{
+	TimeValue* pThis = const_cast<TimeValue*>(this);
+	return &pThis->m_tmVal;
+}
+
 // TimeValue::operator struct timeval const()const
 // {
 // 	return m_tmVal;

@@ -1,4 +1,5 @@
 #include "stream.h"
+#include "socket_option.h"
 
 BEGIN_NAMESPACE
 
@@ -35,6 +36,15 @@ int32	Stream::send(const void *pBuf, const int32 nLen, const TimeValue& tmVal)
 bool	Stream::getRemoteAddress(char* szIp, int16& port)
 {
 	return m_remoteAddress.getAddress(szIp, port);
+}
+
+bool 	Stream::getLocalAddress(char* szIp, int16& port)
+{
+	SocketOption option;
+	InterAddress localAddr;
+
+	option.getLocalAddr(getSocket(), localAddr);
+	return localAddr.getAddress(szIp, port);
 }
 
 Socket&	Stream::getSocket()

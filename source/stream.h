@@ -20,6 +20,7 @@ class EXP_IMP_DLL Stream : public Object
 {
 	friend class Acceptor;
 	friend class Connector;
+	friend class SocketOption;
 public:
 	Stream();
 	virtual ~Stream();
@@ -30,7 +31,8 @@ public:
 
 	int32	send(const void *pBuf, const int32 nLen);
 	int32	send(const void *pBuf, const int32 nLen, const TimeValue& tmVal);
-
+	
+	bool 	getLocalAddress(char* szIp, int16& port);
 	bool	getRemoteAddress(char* szIp, int16& port);
 protected:
 	Socket&			getSocket();

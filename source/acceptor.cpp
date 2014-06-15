@@ -8,7 +8,7 @@ Acceptor::Acceptor()
 
 }
 
-Acceptor::Acceptor(InterAddress& localAddr, bool bReuseAddr /* = false */)
+Acceptor::Acceptor(const InterAddress& localAddr, bool bReuseAddr /* = false */)
 {
 	VERIFY(open(localAddr, bReuseAddr));
 }
@@ -18,7 +18,7 @@ Acceptor::~Acceptor()
 
 }
 
-bool Acceptor::open(InterAddress& localAddr, bool bReuseAddr /*= false*/)
+bool Acceptor::open(const InterAddress& localAddr, bool bReuseAddr /*= false*/)
 {
 	if (!m_sock.open(Socket::SockType::SOCK_TCP))
 		return false;
