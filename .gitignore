@@ -4,3 +4,4 @@
 *.sdf
 openSocket/openSocket.opensdf
 output/openSocket.exp
+*.opensdf
