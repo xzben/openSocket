@@ -30,6 +30,7 @@
 #define USING_NAMESPACE  using namespace XZBEN;
 
 
+#define ERROR_BUF_SIZE				256
 /*************************************************
 **	系统中使用的 ASSERT 宏定义					**
 **************************************************/

@@ -13,6 +13,7 @@
 //SOCKET æ‰±˙¿‡–Õ
 #if defined(_WIN32)
 	#include<winsock2.h>
+	#include <MSWSock.h>
 	#pragma comment(lib, "ws2_32.lib")
 	#pragma comment ( lib, "mswsock.lib")
 ////////////////////////////////////////////////////////////
@@ -27,6 +28,7 @@
 	#include <sys/socket.h>
 	#include <sys/types.h>
 	#include <sys/select.h>
+	#include <sys/epoll.h>
 	#include <arpa/inet.h>
 	#include <netinet/in.h>
 	#include <unistd.h>

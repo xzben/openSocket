@@ -167,6 +167,21 @@ bool  SocketOption::setSendBufSize(Socket& sock, int32 nBufSize)
 	return setoption(sock, SO_SNDBUF, &nBufSize, sizeof(nBufSize));
 }
 
+bool SocketOption::setKeepAlive(Socket& sock, bool bKeepAlive)
+{
+	int keepalive = bKeepAlive ? 1 : 0;
+
+	return setoption(sock, SO_KEEPALIVE, &keepalive, sizeof(keepalive));
+}
+bool SocketOption::isKeepAlive(Socket& sock)
+{
+	int32 nOptVal = 0;
+	socklen_t nOptLen = sizeof(nOptVal);
+
+	VERIFY(getoption(sock, SO_TYPE, &nOptVal, &nOptLen));
+
+	return nOptVal == 1;
+}
 bool SocketOption::setoption(Socket& sock, uint32 optname, const void *optval, socklen_t optlen)
 {
 	SOCKET_HANDLE hSocket = sock.getHandle();

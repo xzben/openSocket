@@ -10,19 +10,25 @@
 
 BEGIN_NAMESPACE
 
+class EXP_IMP_DLL std::thread;
+
+typedef void(*ThreadFunc)(void* );
+
 class EXP_IMP_DLL Thread : public Object, public NoCopyAble
 {
+	typedef std::thread::id		ThreadID;
 public:
 	Thread();
+	Thread(ThreadFunc threadfunc, void* param = nullptr);
 	virtual ~Thread();
 
-	int32		getID();
+	void		open(ThreadFunc threadfunc, void* param = nullptr);
+	ThreadID	getID();
 	bool		isJoinAble();
 	void		join();
 	void		detatch();
-	void		swap();
 protected:
-	std::thread		m_thread;
+	std::thread		*m_pThread;
 };
 
 END_NAMESPACE

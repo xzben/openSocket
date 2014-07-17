@@ -123,6 +123,11 @@ public:
 	*/
 	bool	setBlockMode(Socket& sock, bool bBlock);
 	bool	isBlockMode(Socket& sock);
+
+	/*
+	*/
+	bool	setKeepAlive(Socket& sock, bool bKeepAlive);
+	bool	isKeepAlive(Socket& sock);
 private:
 	bool setoption(Socket& sock, uint32 optname, const void *optval, socklen_t optlen);
 	bool getoption(Socket& sock, uint32 optname, void* optval, socklen_t* optlen);

@@ -11,6 +11,8 @@
 
 BEGIN_NAMESPACE
 
+class EXP_IMP_DLL std::timed_mutex;
+
 /*
 *	互斥锁，使用 C++11 提供的定时锁对象实现
 *	本锁使用的是定时锁
@@ -27,4 +29,12 @@ protected:
 	std::timed_mutex	m_lock;
 };
 
+class EXP_IMP_DLL Guard : public Object
+{
+public:
+	Guard(Mutex* pMutex);
+	~Guard();
+private:
+	Mutex	*m_pGuardMuext;
+};
 END_NAMESPACE

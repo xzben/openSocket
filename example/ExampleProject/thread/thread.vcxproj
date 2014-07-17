@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7021BB0F-1641-4105-AE17-2FFFC9387FA7}</ProjectGuid>
+    <ProjectGuid>{59648CFD-B84F-4715-A161-86CA85C9830F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>openSocket</RootNamespace>
+    <RootNamespace>thread</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -34,16 +34,15 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\openSocketExampleD.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\openSocketExampleR.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\output</OutDir>
-    <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,20 +53,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;_DEBUG;_CONSOLE;_LIB;_OPENSOCKET_BUILD_;_CRT_SECURE_NO_WARNINGS;__PLATFORM_WIN32__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <CustomBuildStep>
-      <Command>copy $(SolutionDir)..\output\openSocket.lib   $(SolutionDir)..\example\output\
-copy $(SolutionDir)..\output\openSocket.dll   $(SolutionDir)..\example\output\</Command>
-      <TreatOutputAsContent>
-      </TreatOutputAsContent>
-      <Outputs>openSocket.lib</Outputs>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -88,44 +80,7 @@ copy $(SolutionDir)..\output\openSocket.dll   $(SolutionDir)..\example\output\</
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\acceptor.h" />
-    <ClInclude Include="..\source\buffer.h" />
-    <ClInclude Include="..\source\condition.h" />
-    <ClInclude Include="..\source\config.h" />
-    <ClInclude Include="..\source\connector.h" />
-    <ClInclude Include="..\source\interal_types.h" />
-    <ClInclude Include="..\source\message.h" />
-    <ClInclude Include="..\source\monitor.h" />
-    <ClInclude Include="..\source\mutex.h" />
-    <ClInclude Include="..\source\net_core.h" />
-    <ClInclude Include="..\source\net_node.h" />
-    <ClInclude Include="..\source\logic_server.h" />
-    <ClInclude Include="..\source\object.h" />
-    <ClInclude Include="..\source\rw_queue.h" />
-    <ClInclude Include="..\source\socket.h" />
-    <ClInclude Include="..\source\socket_addr.h" />
-    <ClInclude Include="..\source\socket_handle.h" />
-    <ClInclude Include="..\source\socket_option.h" />
-    <ClInclude Include="..\source\stream.h" />
-    <ClInclude Include="..\source\thread.h" />
-    <ClInclude Include="..\source\timer.h" />
-    <ClInclude Include="..\source\time_value.h" />
-    <ClInclude Include="..\source\worker.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\source\acceptor.cpp" />
-    <ClCompile Include="..\source\buffer.cpp" />
-    <ClCompile Include="..\source\condition.cpp" />
-    <ClCompile Include="..\source\connector.cpp" />
-    <ClCompile Include="..\source\mutex.cpp" />
-    <ClCompile Include="..\source\net_core.cpp" />
-    <ClCompile Include="..\source\object.cpp" />
-    <ClCompile Include="..\source\socket.cpp" />
-    <ClCompile Include="..\source\socket_addr.cpp" />
-    <ClCompile Include="..\source\socket_option.cpp" />
-    <ClCompile Include="..\source\stream.cpp" />
-    <ClCompile Include="..\source\thread.cpp" />
-    <ClCompile Include="..\source\time_value.cpp" />
+    <ClCompile Include="..\..\source\thread\thread.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

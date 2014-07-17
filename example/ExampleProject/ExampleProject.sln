@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_server", "socket_ser
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketOption", "SocketOption\SocketOption.vcxproj", "{CAAF225A-DF9D-4919-BF58-C8E07902A26D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "thread", "thread\thread.vcxproj", "{59648CFD-B84F-4715-A161-86CA85C9830F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{CAAF225A-DF9D-4919-BF58-C8E07902A26D}.Debug|Win32.Build.0 = Debug|Win32
 		{CAAF225A-DF9D-4919-BF58-C8E07902A26D}.Release|Win32.ActiveCfg = Release|Win32
 		{CAAF225A-DF9D-4919-BF58-C8E07902A26D}.Release|Win32.Build.0 = Release|Win32
+		{59648CFD-B84F-4715-A161-86CA85C9830F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{59648CFD-B84F-4715-A161-86CA85C9830F}.Debug|Win32.Build.0 = Debug|Win32
+		{59648CFD-B84F-4715-A161-86CA85C9830F}.Release|Win32.ActiveCfg = Release|Win32
+		{59648CFD-B84F-4715-A161-86CA85C9830F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

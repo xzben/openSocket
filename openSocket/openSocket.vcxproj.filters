@@ -9,17 +9,17 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="system">
+    <Filter Include="system_h">
       <UniqueIdentifier>{3276eb9c-67d5-40ec-9d70-95fc671165d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system_cpp">
+      <UniqueIdentifier>{c536149d-3d86-4d9a-bc91-83b1974ebd6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{660216d2-2a91-4c8d-be3e-a894e99dbc64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\config.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\interal_types.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\object.h">
       <Filter>socket_base_h</Filter>
     </ClInclude>
@@ -47,6 +47,48 @@
     <ClInclude Include="..\source\time_value.h">
       <Filter>socket_base_h</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\thread.h">
+      <Filter>system_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\mutex.h">
+      <Filter>system_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\condition.h">
+      <Filter>system_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\message.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\monitor.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\net_core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\net_node.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\logic_server.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\timer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\worker.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\config.h">
+      <Filter>system_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\interal_types.h">
+      <Filter>system_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\buffer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\rw_queue.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\object.cpp">
@@ -72,6 +114,21 @@
     </ClCompile>
     <ClCompile Include="..\source\time_value.cpp">
       <Filter>socket_base_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\mutex.cpp">
+      <Filter>system_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\thread.cpp">
+      <Filter>system_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\condition.cpp">
+      <Filter>system_cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\net_core.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\buffer.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
