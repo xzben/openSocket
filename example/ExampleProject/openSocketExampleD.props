@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <ExampleOutput>$(SolutionDir)../output/</ExampleOutput>
-    <ExampleInclude>$(SolutioinDir)../../../source</ExampleInclude>
+    <ExampleInclude>$(SolutioinDir)../../../source;$(SolutioinDir)../../../source/core;$(SolutioinDir)../../../source/system;$(SolutioinDir)../../../source/socket_base;</ExampleInclude>
     <ExampleLib>$(SolutionDir)../../output</ExampleLib>
   </PropertyGroup>
   <PropertyGroup>

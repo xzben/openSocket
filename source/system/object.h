@@ -21,8 +21,8 @@ protected:
 	NoCopyAble(){}
 	virtual ~NoCopyAble(){}
 private:
-	NoCopyAble(const NoCopyAble& rObject);
-	NoCopyAble&	operator=(const NoCopyAble& rObject);
+	NoCopyAble(const NoCopyAble& rObject) = delete;
+	NoCopyAble&	operator=(const NoCopyAble& rObject) = delete;
 };
 
 /*

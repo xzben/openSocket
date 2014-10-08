@@ -1,134 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="socket_base_h">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="socket_base_cpp">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="system_h">
-      <UniqueIdentifier>{3276eb9c-67d5-40ec-9d70-95fc671165d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="system_cpp">
-      <UniqueIdentifier>{c536149d-3d86-4d9a-bc91-83b1974ebd6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="core">
       <UniqueIdentifier>{660216d2-2a91-4c8d-be3e-a894e99dbc64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{3276eb9c-67d5-40ec-9d70-95fc671165d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="socket_base">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\object.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\socket.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\socket_addr.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\socket_handle.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\socket_option.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\connector.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\acceptor.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\stream.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\time_value.h">
-      <Filter>socket_base_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\thread.h">
-      <Filter>system_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\mutex.h">
-      <Filter>system_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\condition.h">
-      <Filter>system_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\message.h">
+    <ClCompile Include="..\source\socket_base\acceptor.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\connector.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\socket.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\socket_addr.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\socket_handle.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\socket_option.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\socket_base\stream.cpp">
+      <Filter>socket_base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\condition.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\mutex.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\object.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\thread.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\time_value.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\core\main.cpp">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\monitor.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\net_core.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\net_node.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\logic_server.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\timer.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\worker.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\config.h">
-      <Filter>system_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\interal_types.h">
-      <Filter>system_h</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\buffer.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\rw_queue.h">
-      <Filter>core</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\object.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\socket.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\socket_addr.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\socket_option.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\stream.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\connector.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\acceptor.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\time_value.cpp">
-      <Filter>socket_base_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\mutex.cpp">
-      <Filter>system_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\thread.cpp">
-      <Filter>system_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\condition.cpp">
-      <Filter>system_cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\net_core.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\buffer.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
+    <ClInclude Include="..\source\socket_base\acceptor.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\connector.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\socket.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\socket_addr.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\socket_handle.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\socket_option.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\socket_base\stream.h">
+      <Filter>socket_base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\condition.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\config.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\interal_types.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\mutex.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\object.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\thread.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\time_value.h">
+      <Filter>system</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
