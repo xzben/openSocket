@@ -11,7 +11,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\core\config_file.cpp" />
+    <ClCompile Include="..\source\core\logger.cpp" />
     <ClCompile Include="..\source\core\main.cpp" />
+    <ClCompile Include="..\source\core\timer.cpp" />
+    <ClCompile Include="..\source\lua\lapi.c" />
+    <ClCompile Include="..\source\lua\lauxlib.c" />
+    <ClCompile Include="..\source\lua\lbaselib.c" />
+    <ClCompile Include="..\source\lua\lbitlib.c" />
+    <ClCompile Include="..\source\lua\lcode.c" />
+    <ClCompile Include="..\source\lua\lcorolib.c" />
+    <ClCompile Include="..\source\lua\lctype.c" />
+    <ClCompile Include="..\source\lua\ldblib.c" />
+    <ClCompile Include="..\source\lua\ldebug.c" />
+    <ClCompile Include="..\source\lua\ldo.c" />
+    <ClCompile Include="..\source\lua\ldump.c" />
+    <ClCompile Include="..\source\lua\lfunc.c" />
+    <ClCompile Include="..\source\lua\lgc.c" />
+    <ClCompile Include="..\source\lua\linit.c" />
+    <ClCompile Include="..\source\lua\liolib.c" />
+    <ClCompile Include="..\source\lua\llex.c" />
+    <ClCompile Include="..\source\lua\lmathlib.c" />
+    <ClCompile Include="..\source\lua\lmem.c" />
+    <ClCompile Include="..\source\lua\loadlib.c" />
+    <ClCompile Include="..\source\lua\lobject.c" />
+    <ClCompile Include="..\source\lua\lopcodes.c" />
+    <ClCompile Include="..\source\lua\loslib.c" />
+    <ClCompile Include="..\source\lua\lparser.c" />
+    <ClCompile Include="..\source\lua\lstate.c" />
+    <ClCompile Include="..\source\lua\lstring.c" />
+    <ClCompile Include="..\source\lua\lstrlib.c" />
+    <ClCompile Include="..\source\lua\ltable.c" />
+    <ClCompile Include="..\source\lua\ltablib.c" />
+    <ClCompile Include="..\source\lua\ltm.c" />
+    <ClCompile Include="..\source\lua\lundump.c" />
+    <ClCompile Include="..\source\lua\lvm.c" />
+    <ClCompile Include="..\source\lua\lzio.c" />
     <ClCompile Include="..\source\socket_base\acceptor.cpp" />
     <ClCompile Include="..\source\socket_base\connector.cpp" />
     <ClCompile Include="..\source\socket_base\socket.cpp" />
@@ -26,6 +61,34 @@
     <ClCompile Include="..\source\system\time_value.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\core\config_file.h" />
+    <ClInclude Include="..\source\core\logger.h" />
+    <ClInclude Include="..\source\core\timer.h" />
+    <ClInclude Include="..\source\lua\lapi.h" />
+    <ClInclude Include="..\source\lua\lauxlib.h" />
+    <ClInclude Include="..\source\lua\lcode.h" />
+    <ClInclude Include="..\source\lua\lctype.h" />
+    <ClInclude Include="..\source\lua\ldebug.h" />
+    <ClInclude Include="..\source\lua\ldo.h" />
+    <ClInclude Include="..\source\lua\lfunc.h" />
+    <ClInclude Include="..\source\lua\lgc.h" />
+    <ClInclude Include="..\source\lua\llex.h" />
+    <ClInclude Include="..\source\lua\llimits.h" />
+    <ClInclude Include="..\source\lua\lmem.h" />
+    <ClInclude Include="..\source\lua\lobject.h" />
+    <ClInclude Include="..\source\lua\lopcodes.h" />
+    <ClInclude Include="..\source\lua\lparser.h" />
+    <ClInclude Include="..\source\lua\lstate.h" />
+    <ClInclude Include="..\source\lua\lstring.h" />
+    <ClInclude Include="..\source\lua\ltable.h" />
+    <ClInclude Include="..\source\lua\ltm.h" />
+    <ClInclude Include="..\source\lua\lua.h" />
+    <ClInclude Include="..\source\lua\lua.hpp" />
+    <ClInclude Include="..\source\lua\luaconf.h" />
+    <ClInclude Include="..\source\lua\lualib.h" />
+    <ClInclude Include="..\source\lua\lundump.h" />
+    <ClInclude Include="..\source\lua\lvm.h" />
+    <ClInclude Include="..\source\lua\lzio.h" />
     <ClInclude Include="..\source\socket_base\acceptor.h" />
     <ClInclude Include="..\source\socket_base\connector.h" />
     <ClInclude Include="..\source\socket_base\socket.h" />
@@ -41,6 +104,9 @@
     <ClInclude Include="..\source\system\thread.h" />
     <ClInclude Include="..\source\system\time_value.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\source\lua\Makefile" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7021BB0F-1641-4105-AE17-2FFFC9387FA7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -48,7 +114,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -75,7 +141,7 @@
     <OutDir>$(SolutionDir)..\output</OutDir>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
     <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
-    <IncludePath>$(ProjectDir)..\source\core;$(ProjectDir)..\source\socket_base;$(ProjectDir)..\source\system;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\source\lua;$(ProjectDir)..\source\core;$(ProjectDir)..\source\socket_base;$(ProjectDir)..\source\system;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -86,7 +152,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;_DEBUG;_CONSOLE;_LIB;_OPENSOCKET_BUILD_;_CRT_SECURE_NO_WARNINGS;__PLATFORM_WIN32__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_DEBUG;_CONSOLE;_LIB;_OPENSOCKET_BUILD_;_CRT_SECURE_NO_WARNINGS;__PLATFORM_WIN32__;LUA_COMPAT_ALL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -94,8 +160,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
-      <Command>copy $(SolutionDir)..\output\openSocket.lib   $(SolutionDir)..\example\output\
-copy $(SolutionDir)..\output\openSocket.dll   $(SolutionDir)..\example\output\</Command>
+      <Command>
+      </Command>
       <TreatOutputAsContent>
       </TreatOutputAsContent>
       <Outputs>openSocket.lib</Outputs>

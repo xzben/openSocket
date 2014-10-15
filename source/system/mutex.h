@@ -5,6 +5,8 @@
 *	文件功能:	系统中使用的线程安全锁											*
 *********************************************************************************/
 
+#ifndef __2014_10_12_MUTEX_H__
+#define __2014_10_12_MUTEX_H__
 
 #include "object.h"
 #include <mutex>
@@ -17,7 +19,7 @@ class EXP_IMP_DLL std::timed_mutex;
 *	互斥锁，使用 C++11 提供的定时锁对象实现
 *	本锁使用的是定时锁
 */
-class EXP_IMP_DLL Mutex : public NoCopyAble, public Object
+class EXP_IMP_DLL Mutex : public Object
 {
 public:
 	Mutex();
@@ -38,3 +40,5 @@ private:
 	Mutex	*m_pGuardMuext;
 };
 END_NAMESPACE
+
+#endif//!__2014_10_12_MUTEX_H__

@@ -5,6 +5,9 @@
 *	文件功能:	系统中使用的线程对象												*
 *********************************************************************************/
 
+#ifndef __2014_10_12_THREAD_H__
+#define __2014_10_12_THREAD_H__
+
 #include "object.h"
 #include <thread>
 
@@ -32,3 +35,4 @@ protected:
 };
 
 END_NAMESPACE
+#endif//!__2014_10_12_THREAD_H__

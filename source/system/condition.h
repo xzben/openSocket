@@ -5,6 +5,10 @@
 *	文件功能:	系统中使用的线程同步条件变量										*
 *********************************************************************************/
 
+#ifndef __2014_10_12_CONDITION_H__
+#define __2014_10_12_CONDITION_H__
+
+
 #include "object.h"
 #include <condition_variable>
 #include <mutex>
@@ -33,3 +37,5 @@ private:
 	int						 m_WaitCount;
 };
 END_NAMESPACE
+
+#endif // !__2014_10_12_CONDITION_H__

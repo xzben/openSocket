@@ -1,6 +1,7 @@
 #include "logger.h"
 #include <cstdarg>
-#include <windows.h>
+#include <ctime>
+
 BEGIN_NAMESPACE
 //////////////////////////////////////////////////////////////////////////
 //Logger
@@ -63,7 +64,6 @@ void Logger::logtext(const LOG_LEVEL level,const char * text)
 
 void Logger::logva(const LOG_LEVEL level,const char * pattern,va_list vp)
 {
-	SYSTEMTIME system;
 	struct tm *now;
 	time_t ltime;
 	char   szName[_MAX_PATH];
@@ -71,8 +71,6 @@ void Logger::logva(const LOG_LEVEL level,const char * pattern,va_list vp)
 	if (m_emLevel > level) return;
 	time(&ltime);
 	if (NULL == (now=localtime(&ltime))) return;
-
-	GetLocalTime(&system);
 
 	m_mutex.lock();
 
@@ -102,12 +100,12 @@ void Logger::logva(const LOG_LEVEL level,const char * pattern,va_list vp)
 	if (NULL != m_fp_console)
 	{
 		fprintf(m_fp_console,"%04d/%02d/%02d ",now->tm_year + 1900,now->tm_mon + 1,now->tm_mday);
-		fprintf(m_fp_console,"%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
+		fprintf(m_fp_console,"%02d:%02d:%02d ",now->tm_hour, now->tm_min, now->tm_sec);
 	}
 	if (NULL != m_fp_file)
 	{
 		fprintf(m_fp_file,"%04d/%02d/%02d ",now->tm_year + 1900,now->tm_mon + 1,now->tm_mday);
-		fprintf(m_fp_file,"%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
+		fprintf(m_fp_file, "%02d:%02d:%02d ", now->tm_hour, now->tm_min, now->tm_sec);
 	}
 
 	if (NULL != m_fp_console)
@@ -199,9 +197,6 @@ void Logger::debug16(const char* info, const BYTE* pData, int Datasize)
 	time(&ltime);
 	if (NULL == (now=localtime(&ltime))) return;
 
-	SYSTEMTIME system;
-	GetLocalTime(&system);
-
 	m_mutex.lock();
 
 	if (!m_file.empty())
@@ -229,12 +224,12 @@ void Logger::debug16(const char* info, const BYTE* pData, int Datasize)
 	if (NULL != m_fp_console)
 	{
 		fprintf(m_fp_console,"%04d/%02d/%02d ",now->tm_year + 1900,now->tm_mon + 1,now->tm_mday);
-		fprintf(m_fp_console,"%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
+		fprintf(m_fp_console, "%02d:%02d:%02d ", now->tm_hour, now->tm_min, now->tm_sec);
 	}
 	if (NULL != m_fp_file)
 	{
 		fprintf(m_fp_file,"%04d/%02d/%02d ",now->tm_year + 1900,now->tm_mon + 1,now->tm_mday);
-		fprintf(m_fp_file,"%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
+		fprintf(m_fp_file, "%02d:%02d:%02d ", now->tm_hour, now->tm_min, now->tm_sec);
 	}
 
 	if (NULL != m_fp_console)

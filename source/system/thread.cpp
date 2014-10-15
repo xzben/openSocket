@@ -6,7 +6,7 @@ Thread::Thread()
 {
 	m_pThread = nullptr;
 }
-
+ 
 Thread::Thread(ThreadFunc threadfunc, void* param /*= nullptr*/)
 {
 	this->open(threadfunc, param);
