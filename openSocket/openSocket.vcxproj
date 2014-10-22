@@ -13,7 +13,11 @@
   <ItemGroup>
     <ClCompile Include="..\source\core\config_file.cpp" />
     <ClCompile Include="..\source\core\logger.cpp" />
+    <ClCompile Include="..\source\core\local_server_manager.cpp" />
+    <ClCompile Include="..\source\core\logic_server.cpp" />
     <ClCompile Include="..\source\core\main.cpp" />
+    <ClCompile Include="..\source\core\message.cpp" />
+    <ClCompile Include="..\source\core\openSocket.cpp" />
     <ClCompile Include="..\source\core\timer.cpp" />
     <ClCompile Include="..\source\lua\lapi.c" />
     <ClCompile Include="..\source\lua\lauxlib.c" />
@@ -54,6 +58,7 @@
     <ClCompile Include="..\source\socket_base\socket_handle.cpp" />
     <ClCompile Include="..\source\socket_base\socket_option.cpp" />
     <ClCompile Include="..\source\socket_base\stream.cpp" />
+    <ClCompile Include="..\source\system\atom.cpp" />
     <ClCompile Include="..\source\system\condition.cpp" />
     <ClCompile Include="..\source\system\mutex.cpp" />
     <ClCompile Include="..\source\system\object.cpp" />
@@ -62,7 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\core\config_file.h" />
+    <ClInclude Include="..\source\core\local_server_manager.h" />
     <ClInclude Include="..\source\core\logger.h" />
+    <ClInclude Include="..\source\core\logic_server.h" />
+    <ClInclude Include="..\source\core\message.h" />
+    <ClInclude Include="..\source\core\openSocket.h" />
     <ClInclude Include="..\source\core\timer.h" />
     <ClInclude Include="..\source\lua\lapi.h" />
     <ClInclude Include="..\source\lua\lauxlib.h" />
@@ -96,6 +105,7 @@
     <ClInclude Include="..\source\socket_base\socket_handle.h" />
     <ClInclude Include="..\source\socket_base\socket_option.h" />
     <ClInclude Include="..\source\socket_base\stream.h" />
+    <ClInclude Include="..\source\system\atom.h" />
     <ClInclude Include="..\source\system\condition.h" />
     <ClInclude Include="..\source\system\config.h" />
     <ClInclude Include="..\source\system\interal_types.h" />

@@ -9,6 +9,7 @@
 #ifndef __2014_03_17_INTERAL_TYPES_H__
 #define __2014_03_17_INTERAL_TYPES_H__
 
+#include <cstdint>
 
 //重定义基本数据类型
 typedef	char						int8;

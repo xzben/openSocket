@@ -11,7 +11,7 @@
 
 #include "object.h"
 #include "mutex.h"
-
+#include <string>
 BEGIN_NAMESPACE
 /*
 *	系统日志，按天为单位存储日志文件

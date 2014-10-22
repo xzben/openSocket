@@ -19,7 +19,7 @@ class EXP_IMP_DLL std::timed_mutex;
 *	互斥锁，使用 C++11 提供的定时锁对象实现
 *	本锁使用的是定时锁
 */
-class EXP_IMP_DLL Mutex : public Object
+class EXP_IMP_DLL Mutex : public Object, public NoCopyAble
 {
 public:
 	Mutex();

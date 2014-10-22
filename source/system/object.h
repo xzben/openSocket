@@ -25,6 +25,28 @@ private:
 	NoCopyAble&	operator=(const NoCopyAble& rObject) = delete;
 };
 
+
+class EXP_IMP_DLL Ref
+{
+public:
+	/*
+	*	function : 引用加一
+	*	return:
+	*		WIN32: 引用加一后的值
+	*/
+	inline uint32_t retain();
+	/*
+	*	function : 引用减一
+	*	return:
+	*		WIN32: 返回引用减一后的值
+	*/
+	inline uint32_t release();
+protected:
+	Ref();
+	virtual ~Ref();
+private:
+	uint32_t  m_ref;
+};
 /*
 *	系统中所有类的公共基类
 */

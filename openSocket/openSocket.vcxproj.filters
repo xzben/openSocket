@@ -160,6 +160,21 @@
     <ClCompile Include="..\source\core\timer.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\core\local_server_manager.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\core\openSocket.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\core\message.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\core\logic_server.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\system\atom.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\socket_base\acceptor.h">
@@ -287,6 +302,21 @@
     </ClInclude>
     <ClInclude Include="..\source\core\timer.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\core\logic_server.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\core\local_server_manager.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\core\message.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\core\openSocket.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\system\atom.h">
+      <Filter>system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
