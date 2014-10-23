@@ -4,11 +4,13 @@
 #include "condition.h"
 #include "logger.h"
 #include "timer.h"
+#include "message.h"
 BEGIN_NAMESPACE
 
 struct WorkerParam
 {
 	int ID;
+	int weight;
 };
 
 bool openSocket::check_abort()
@@ -36,6 +38,7 @@ void openSocket::_timer(void* param)
 	{
 		Timer::getInstance()->updateTimer();
 		if (check_abort()) break;
+		
 	}
 }
 
@@ -52,11 +55,19 @@ void openSocket::_socket(void* param)
 void openSocket::_worker(void* param)
 {
 	WorkerParam* worker_param = (WorkerParam*)param;
+	int worker_id = worker_param->ID;
+	int weight = worker_param->weight;
+
 	s_thread_start_condition.wait();
-	Logger::getInstace()->info("this is worker thread[%d] start...............", worker_param->ID);
+	Logger::getInstace()->info("this is worker thread[%d] start...............", worker_id);
 
 	while (1)
 	{
+		int32_t idle = MessageManager::get_instance()->execute_messages(weight);
+		if (idle)
+		{
+
+		}
 		if (check_abort()) break;
 	}
 }
@@ -81,18 +92,28 @@ int openSocket::start()
 	threads[2].open(openSocket::_socket, nullptr);
 
 	WorkerParam *param = new WorkerParam[worker_num];
+	static int weight[] = {
+		-1, -1, -1, -1, 0, 0, 0, 0,
+		1, 1, 1, 1, 1, 1, 1, 1,
+		2, 2, 2, 2, 2, 2, 2, 2,
+		3, 3, 3, 3, 3, 3, 3, 3, };
 	for (int i = 0; i < worker_num; i++)
 	{
 		param[i].ID = i;
+		if (i < sizeof(weight) / sizeof(weight[0]))
+			param[i].weight = weight[i];
+		else
+			param[i].weight = 0;
+
+		
 		threads[3 + i].open(openSocket::_worker, &param[i]);
 	}
 
 	s_thread_start_condition.notify_all();
 
 	for (int i = 0; i < thread_nums; i++)
-	{
 		threads[i].join();
-	}
+
 	delete[] param;
 	return 0;
 }

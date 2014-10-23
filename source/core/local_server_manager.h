@@ -36,7 +36,9 @@ public:
 	LogicServer* get_server(uint32_t server_id);
 	bool		is_local_server(uint32_t server_id);
 protected:
+	friend class LogicServer;
 	int32_t push_server_to_map(uint32_t server_id, LogicServer* server);
+	void	delete_server(uint32_t server_id);
 protected:
 	LocalServerManager();
 	~LocalServerManager();

@@ -93,6 +93,16 @@ int32_t LocalServerManager::push_server_to_map(uint32_t server_id, LogicServer* 
 
 	return 0;
 }
+void	LocalServerManager::delete_server(uint32_t server_id)
+{
+	m_lock.lock();
+	_ContainorId2Server::iterator it = m_id_map_servers.find(server_id);
+	if (it != m_id_map_servers.end())
+	{
+		m_id_map_servers.erase(it);
+	}
+	m_lock.unlock();
+}
 
 LogicServer* LocalServerManager::get_server(uint32_t server_id)
 {

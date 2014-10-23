@@ -31,10 +31,11 @@ public:
 	virtual int32_t server_callback(LOGIC_SERVER_CALLBACK_PARAMS);
 
 protected:
+	uint32_t			m_session_count;
 	uint32_t			m_serer_id;			//服务ID，
 	SERVER_CALLBACK		m_pfnCallback;		//服务的回调函数
 	std::string			m_server_name;		//服务的名字
-	MessageQueue		m_msg_queue;
+	MessageQueue*		m_pMsg_queue;
 };
 
 END_NAMESPACE
